@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Loading SimpleYUI in a Generic Sandbox</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/simpleyui/simpleyui-min.js"></script>
+<script>
+var message = 'BOGUS MESSAGE';
+
+(function () {
+    var message = 'This message brought to you by sandboxed SimpleYUI.';
+    Y.one('#demo').setContent(message);
+}());
+</script>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Changing an Element's Inner Content</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var demo = Y.one('#demo'),
+        hi = '<em>HELLO</em> from the ' + demo.get('tagName') 
+            + ' with id=' + demo.get('id');
+
+    if (demo.getContent() === '') {
+        demo.setContent(hi);
+    }
+});
+</script>

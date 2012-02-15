@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<title>Creating a Tooltip from an Overlay</title>
+<style>
+.yui3-overlay { 
+    background: #ff5;
+    padding: 3px;
+    border: 1px #a92 solid;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px #a92;
+}
+p { width: 300px; padding: 5px; background: #d72; }
+</style>
+
+<p data-tooltip="Floss every day.">This is some text with a helpful tooltip.</p>
+<p>Sorry, no tooltip here.</p>
+<p data-tooltip="Only own identical socks.">More text with a helpful tooltip.</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', 'event-mouseenter', function (Y) {
+    var tooltip = new Y.Overlay({ width: 200, visible: false });
+
+    function enter(ev) {
+        var node = ev.currentTarget;
+        tooltip.align(node, [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BC]);
+        tooltip.set('bodyContent', node.getAttribute('data-tooltip'));
+        tooltip.show();
+    }
+    function leave(ev) {
+        tooltip.hide();
+    }
+    Y.delegate('mouseenter', enter, 'body', '*[data-tooltip]');
+    Y.delegate('mouseleave', leave, 'body', '*[data-tooltip]'); 
+    
+    tooltip.render();
+});
+</script>

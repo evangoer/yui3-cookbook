@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Firing and Capturing a Custom Event</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', 'event-custom', function (Y) {
+    function theEagleHasLanded() {
+        return true;
+    }
+    
+    Y.on('moon:landing', function (ev) {
+        var msg = Y.Lang.sub("{first} {last}: That's one small step for [a] man...", ev);
+        Y.one('#demo').setContent(msg);
+    });
+    
+    if (theEagleHasLanded()) {
+        Y.fire('moon:landing', {first: 'Neil', last: 'Armstrong'});
+    }
+});
+</script>

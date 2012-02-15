@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<title>Testing Asynchronously with No Event to Listen for</title>
+<style>
+.foo { background: #955; }
+</style>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('test-console', function (Y) {
+    function changeToRed(timeout) {
+        setTimeout(function () {
+            Y.one('body').addClass('foo');
+        }, timeout)
+    }
+
+    var asyncTest = new Y.Test.Case({
+        name: 'Asynchronous Transition Test with No Event',
+
+        'After 2 seconds, body should have class foo' : function () {
+            changeToRed(2000);
+
+            this.wait(function () {
+                Y.Assert.isTrue(Y.one('body').hasClass('foo'));
+            }, 2100);
+        }
+    });
+
+    new Y.Test.Console().render('#demo');
+
+    Y.Test.Runner.add(asyncTest);
+    Y.Test.Runner.run();
+});
+</script>

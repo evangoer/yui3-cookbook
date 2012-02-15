@@ -1,0 +1,7 @@
+/* Core styles */
+.yui3-electron           { width: 175px; }
+.yui3-electron-content   { background: #ff0; border: 1px #000 solid; }
+.yui3-electron-content p { margin: 5px; }
+
+/* Skin styles */
+.yui3-skin-sam .yui3-electron-content { background: #0ff;}

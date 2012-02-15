@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title>Creating a Module that Depends on YUI Node</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('hello', function (Y) {
+
+    function setNodeMessage(node, html) {
+        node = Y.one(node);
+        if (node) {
+            node.setContent(html);
+        }
+    }
+
+    Y.namespace('Hello').sayHello = function (node) {
+        setNodeMessage(node, 'GREETINGS PROGRAMS');
+    };
+
+}, '0.0.1', {requires: ['node-base']});
+
+YUI().use('hello', function (Y) {
+    Y.Hello.sayHello(Y.one('#demo'));
+});
+</script>

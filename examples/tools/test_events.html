@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<title>Testing a Click Handler with Event Simulation</title>
+
+<div id="button"></div>
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-event-simulate', 'test-console', function (Y) {
+    var controller = {
+        handleClick: function (event) {
+            event.target.addClass('clicked');
+        }    
+    };
+
+    var testCase = new Y.Test.Case({
+        name: 'Test Click Handler',
+        setUp: function () {
+            Y.one('#button').on('click', controller.handleClick, controller);
+        },
+        tearDown: function (){
+            Y.one('#button').detachAll();
+        },
+        'handleClick() should add the class "clicked" to the button': function () {
+            var button = Y.one('#button');
+            button.simulate('click');
+        
+            Y.Assert.isTrue(button.hasClass('clicked'), 
+                'Button should have a class of "clicked"');
+        }
+    });
+
+    new Y.Test.Console().render('#demo');
+
+    Y.Test.Runner.add(testCase);
+    Y.Test.Runner.run();
+});
+</script>

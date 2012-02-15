@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>Loading node-base and Dependencies Synchronously</title>
+
+<div id="demo"></div>
+
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?3.5.0/build/yui-base/yui-base-min.js&3.5.0/build/oop/oop-min.js&3.5.0/build/event-custom-base/event-custom-base-min.js&3.5.0/build/features/features-min.js&3.5.0/build/dom-core/dom-core-min.js&3.5.0/build/dom-base/dom-base-min.js&3.5.0/build/selector-native/selector-native-min.js&3.5.0/build/selector/selector-min.js&3.5.0/build/node-core/node-core-min.js&3.5.0/build/node-base/node-base-min.js&3.5.0/build/event-base/event-base-min.js"></script>
+<script>
+YUI({
+    bootstrap: false,
+}).use('*', function (Y) {
+    Y.one('#demo').setContent('Real Programmers manage their dependencies manually.');
+});
+</script>

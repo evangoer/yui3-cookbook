@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Delegating with a Function</title>
+
+<div id="i_want_candy">
+    <ul>
+        <li class="veggie">Broccoli</li>
+        <li class="candy">Chocolate Bar</li>
+        <li class="veggie">Eggplant</li>
+        <li class="candy">Lollipops</li>
+    </ul>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-event-delegate', function (Y) {
+    function isCandy(node, ev) {
+        return node.hasClass('candy');
+    }
+    
+    Y.one('#i_want_candy').delegate('click', function (ev) {
+        Y.one('body').append('<b>Yum! </b>');
+    }, isCandy);
+});
+</script>

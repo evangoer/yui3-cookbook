@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<title>Writing Unit Tests</title>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('test-console', function (Y) {
+    // Implementation is not quite right; regex is missing a /g
+    function trim(text){
+        return text.replace(/^\s+|\s+$/,  '');
+    }
+
+    var testCase = new Y.Test.Case({
+        name: 'trim() Tests',
+
+        'Leading whitespace should be removed': function () {
+            var result = trim('     Hello world!');
+            Y.Assert.areEqual('Hello world!', result);
+        },
+
+        'Trailing white space should be removed': function () {
+            var result = trim('Hello world!     ');
+            Y.Assert.areEqual('Hello world!', result);
+        },
+
+        'Leading and trailing white space should be removed': function () {
+            var result = trim('     Hello world!     ');
+            Y.Assert.areEqual('Hello world!', result);
+        }
+    });
+
+    new Y.Test.Console().render('#demo');
+
+    Y.Test.Runner.add(testCase);
+    Y.Test.Runner.run();
+});
+</script>

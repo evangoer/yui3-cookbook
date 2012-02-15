@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<title>Loading the Overlay Module On Demand</title>
+<style>
+.yui3-overlay-content {
+    padding: 2px;
+    border: 1px solid #000;
+    border-radius: 6px;
+    background-color: #afa;
+}
+</style>
+
+<button id="show">Show Overlay</button>
+<button id="hide">Hide Overlay</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    var overlay;
+
+    var showOverlay = function () {
+        Y.use('overlay', function () {
+            overlay = new Y.Overlay({
+                bodyContent: 'Hello!',
+                centered: true,
+                height: 100,
+                render: true,
+                visible: false,
+                width: 200,
+                zIndex: 2
+            });
+
+            showOverlay = function () {
+                overlay.show();
+            };
+
+            showOverlay();
+        });
+    };
+
+    Y.one('#hide').on('click', function () {
+        if (overlay) {
+            overlay.hide();
+        }
+    });
+
+    Y.one('#show').on('click', function () {
+        showOverlay();
+    });
+});
+</script>

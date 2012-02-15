@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<title>Implementing a "Select All" Checkbox Group</title>
+
+<p>Yes! Please send me valuable and informative marketing information by:</p>
+<form>
+    <p><label><input type="checkbox" class="mkting" name="em"> Email</label></p>
+    <p><label><input type="checkbox" class="mkting" name="sm"> Snail Mail</label></p>
+    <p><label><input type="checkbox" class="mkting" name="tw"> Tweet</label></p>
+    <p><label><input type="checkbox" class="mkting" name="cp"> Carrier Pigeon</label></p>
+    <p><label><input type="checkbox" id="all" name="all"> I want it all, baby!</label></p>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('gallery-checkboxgroups', function (Y) {
+    new Y.SelectAllCheckboxGroup('#all', '.mkting');
+});
+</script>

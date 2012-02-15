@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<title>Efficiently Calculating Fibonacci Numbers</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    var fib = Y.cached(function (n) {
+        return (n === 1 || n === 2) ? 1 : fib(n - 1) + fib(n - 2);
+    });
+    
+    Y.one('#demo').append(fib(100));
+});
+</script>

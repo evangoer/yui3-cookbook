@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Creating a Basic Line Chart</title>
+
+<div id="chart"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('charts', function (Y) {    
+    var dataProvider = [
+        { date: '1/15/2012', revenue: 45000, expenses: 22700 },
+        { date: '2/15/2012', revenue: 38935, expenses: 23150 },
+        { date: '3/15/2012', revenue: 36500, expenses: 23000 },
+        { date: '4/15/2012', revenue: 43500, expenses: 23150 },
+        { date: '5/15/2012', revenue: 57500, expenses: 24350 },
+        { date: '6/15/2012', revenue: 79550, expenses: 23890 }
+    ];
+    
+    var lineChart = new Y.Chart({
+        dataProvider: dataProvider, 
+        categoryKey: 'date',
+        width: 400,
+        height: 300,
+    }).render('#chart');
+});
+</script>

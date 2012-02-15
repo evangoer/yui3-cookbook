@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<title>Checking Types</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use(function (Y) {
+    var typeChecks = [
+        Y.Lang.isArray([]),        // => true
+        Y.Lang.isArray(arguments), // => false
+        Y.Lang.isArray('string'),  // => false
+
+        Y.Lang.isBoolean(true),    // => true
+        Y.Lang.isBoolean(0),       // => false
+
+        Y.Lang.isDate(new Date()), // => true
+        Y.Lang.isDate(123),        // => false
+
+        Y.Lang.isFunction(function () {}), // => true
+        Y.Lang.isFunction('test'),         // => false
+
+        Y.Lang.isNull(null),       // => true
+        Y.Lang.isNull(undefined),  // => false
+
+        Y.Lang.isNumber(42),       // => true
+        Y.Lang.isNumber('42'),     // => false
+        Y.Lang.isNumber(NaN),      // => false
+
+        Y.Lang.isObject({}),       // => true
+        Y.Lang.isObject([]),       // => true (yep, arrays are objects!)
+        Y.Lang.isObject('test'),   // => false
+        Y.Lang.isObject(function () {}),        // => true
+        Y.Lang.isObject(function () {}, true),  // => false ('failFn' flag)
+
+        Y.Lang.isString('string'), // => true
+        Y.Lang.isString(42),       // => false
+
+        Y.Lang.isUndefined(undefined), // => true
+        Y.Lang.isUndefined(null),      // => false
+
+        Y.Lang.isValue(false),     // => true
+        Y.Lang.isValue(0),         // => true
+        Y.Lang.isValue(''),        // => true
+        Y.Lang.isValue(null),      // => false
+        Y.Lang.isValue(undefined), // => false
+
+        Y.Lang.type([]),             // => array
+        Y.Lang.type(true),           // => boolean
+        Y.Lang.type(new Date()),     // => date
+        Y.Lang.type(new Error()),    // => error
+        Y.Lang.type(function () {}), // => function
+        Y.Lang.type(null),           // => null
+        Y.Lang.type(42),             // => number
+        Y.Lang.type({}),             // => object
+        Y.Lang.type(/regexp/),       // => regexp
+        Y.Lang.type('string'),       // => string
+        Y.Lang.type(undefined)       // => undefined
+    ];
+
+    Y.Array.each(typeChecks, function (result) {
+        Y.log(result);
+    });    
+});
+</script>

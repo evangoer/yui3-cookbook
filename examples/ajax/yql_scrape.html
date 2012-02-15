@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<title>Scraping HTML with YQL</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('yql', 'node-base', function (Y) {
+    var query  = 'select * from html where url="{url}" and xpath="{xpath}"',
+        params = {}; 
+        
+    params.url   = 'http://kleinbottle.com/specs_for_nice_klein_bottles.htm';
+    params.xpath = '//table[1]/tr';
+    query = Y.Lang.sub(query, params);
+        
+    Y.YQL(query, function (response) {
+        var ol = Y.Node.create('<ol/>'),
+            rows = response.query.results.tr,
+            template = '<li><a href="{href}">{product}</a>:'
+                + ' {height} x {diameter}, just <b>{price}</b>!</li>',
+            data, col, colMax = 8;
+            
+        for (col = 1; col <= colMax; col += 1) {
+            data = {};
+            data.href     = 'http://kleinbottle.com/' + rows[0].td[col].p.a.href;
+            data.product  = rows[0].td[col].p.a.content;
+            data.height   = rows[1].td[col].p;
+            data.diameter = rows[2].td[col].p;
+            data.price    = rows[8].td[col].p;
+            ol.append(Y.Lang.sub(template, data));
+        }
+        Y.one('body').append(ol);
+    });
+});
+</script>

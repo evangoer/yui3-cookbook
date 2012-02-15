@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<title>Redefining the Default Hide and Show Transition</title>
+<style>
+#demo { width: 100px; height: 100px; border: 1px #000 solid; background: #d72; }
+</style>
+
+<button id="hide">Hide</button>
+<button id="show">Show</button>
+<div id="demo"></div>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI().use('node', 'transition', function (Y) {
+    function setRelativePosition() {
+        this.setStyle('position', 'relative');
+    }
+    
+    Y.Transition.fx.slideFadeOut = {
+        opacity: 0,
+        right: '-100px',
+        easing: 'ease-out',
+        on: { start: setRelativePosition }
+    };
+    
+    Y.Transition.fx.slideFadeIn = {
+        opacity: 1.0,
+        right: '0px',
+        easing: 'ease-in',
+        on: { start: setRelativePosition }
+    };
+    
+    Y.Transition.HIDE_TRANSITION = 'slideFadeOut';
+    Y.Transition.SHOW_TRANSITION = 'slideFadeIn';
+        
+    Y.one('#hide').on('click', function () {
+        Y.one('#demo').hide(true);
+    });
+    
+    Y.one('#show').on('click', function () {
+        Y.one('#demo').show(true);
+    });
+});
+</script>

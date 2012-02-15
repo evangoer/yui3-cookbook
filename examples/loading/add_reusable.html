@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<title>Creating a Reusable Module</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    modules: {
+        'hello': {
+            fullpath: 'hello.js',
+            requires: ['node-base']
+        }
+    }
+}).use('hello', function (Y) {
+    Y.Hello.sayHello(Y.one('#demo'));
+});
+</script>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<title>Fetching and Displaying Data with JSONP</title>
+<style>
+.user { width: 20em; background: #eee; border: 1px solid #888; min-height: 75px;}
+.user img { float: right; }
+.user h2 { font: normal 14px verdana; margin: 0.2em; }
+.user p { font: 12px verdana; color: #333; margin: 0.2em; }
+</style>
+
+<form>
+<input id='username' value='brad'> <button>Get Vimeo User</button>
+</form>
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('jsonp', 'node-base', function (Y) {
+        
+    Y.one('button').on('click', function (ev) {
+        var user = Y.one('#username').get('value'),
+            url = 'http://vimeo.com/api/v2/' + user + '/info.json?callback={callback}';
+                
+        Y.jsonp(url, function (response) {
+            var template = '<div class="user"><img src="{portrait_medium}">'
+                + '<h2><a href="{profile_url}">{display_name}</a> ({location})</h2>'
+                + '<p>{bio}</p>' 
+                + '<p>Videos Uploaded: {total_videos_uploaded}</p></div>'
+
+            Y.one('#demo').setContent(Y.Lang.sub(template, response));
+        });
+        ev.preventDefault();
+    });
+});
+</script>

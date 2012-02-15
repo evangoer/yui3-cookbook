@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Filtering an Array</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('array-extras', function (Y) {
+    var patrons = [ 'person', 'rope', 'frayed knot' ];
+    
+    var acceptablePatrons = Y.Array.filter(patrons, function (p) {
+        return p !== 'rope'; 
+    });
+    
+    Y.Array.each(acceptablePatrons, function (p) { 
+        Y.log(p);
+    });
+});
+</script>

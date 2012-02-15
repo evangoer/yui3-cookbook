@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<title>Implementing a Custom Checkbox Group</title>
+
+<p>Yes! Please send me valuable and informative marketing information by:</p>
+<form>
+    <p><label><input type="checkbox" class="mkting" name="em"> Email</label></p>
+    <p><label><input type="checkbox" class="mkting" name="sm"> Snail Mail</label></p>
+    <p><label><input type="checkbox" class="mkting" name="tw"> Tweet</label></p>
+    <p><label><input type="checkbox" class="mkting" name="cp"> Carrier Pigeon</label></p>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('gallery-checkboxgroups', function (Y) {
+    function AnnoyingCheckboxGroup(checkboxes) {
+        AnnoyingCheckboxGroup.superclass.constructor.call(this, checkboxes);
+    }
+    
+    Y.extend(AnnoyingCheckboxGroup, Y.CheckboxGroup, {
+        enforceConstraints: function (checkboxes, index) {
+            Y.each(checkboxes, function (checkbox) {
+                var state = Math.random() > 0.5;
+                checkbox.set('checked', state);
+            });
+        }
+    });
+    
+    new AnnoyingCheckboxGroup('.mkting');
+});
+</script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<title>Creating a Vertical Slider with an Audio Skin</title>
+<style>
+span.volume { vertical-align: top; }
+</style>
+
+<body class="yui3-skin-sam">
+<div class="yui3-skin-audio-light">
+    <span id="slider"></span> 
+    <span class="volume">Volume: <span id="value">4</span></span>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    skin: {
+        overrides: {
+            'slider-base': ['audio-light']
+        }
+    }
+}).use('slider', function (Y) {
+    var audioSlider = new Y.Slider({
+        axis: 'y',
+        min: 11,
+        max: 0,
+        value: 4
+    }).render('#slider');
+    
+    var volume = Y.one('#value');
+    audioSlider.after('valueChange', function (ev) {
+        volume.setContent(ev.newVal);
+    });
+});
+</script>
+</body>

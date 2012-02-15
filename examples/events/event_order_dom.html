@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Controlling Event Handler Execution Order (DOM Events)</title>
+
+<p>Click me, then check your browser error console for exciting log action!</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    var p = Y.one('p');
+    p.on('click', function () { Y.log('I will execute first.') });
+    p.on('click', function () { Y.log('I will execute second.') });
+    p.on('click', function () { Y.log('I will execute third.') });
+});
+</script>

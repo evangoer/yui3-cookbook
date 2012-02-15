@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title>Merging Objects</title>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI().use(function (Y) {
+    var reptileHouse = { reptiles: 47 },
+        giraffeExhibit = { giraffes: 4 },
+        aviary = { 
+            birds: 103,
+            repairs: {
+                reason: 'plumbing',
+                completion: '21-Dec-2012'
+            }
+        },
+        zoo = Y.merge(reptileHouse, giraffeExhibit, aviary);
+    
+    zoo.giraffes += 1;
+    Y.log('increasing zoo.giraffes to ' + zoo.giraffes);
+    Y.log('giraffeExhibit.giraffes remains at ' + giraffeExhibit.giraffes);
+    
+    zoo.repairs.reason = 'remodel';
+    Y.log('changing zoo.repairs.reason to "' + zoo.repairs.reason + '"');
+    Y.log('changes aviary.repairs.reason to "'  + aviary.repairs.reason + '"');
+});
+</script>

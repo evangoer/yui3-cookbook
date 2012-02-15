@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Getting an Element with Various Selectors</title>
+
+<div id="demo" dir="rtl"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var aDiv1 = Y.one('#demo');         // the demo <div>
+    var aDiv2 = Y.one('div');           // the demo <div> (the first and only <div>)
+    var aDiv3 = Y.one('body div.bar');  // null; there's no <div class="bar">
+    var aScript = Y.one('body script'); // the first <script> in the <body>
+    var aDiv4 = Y.one('html > div');    // null; there's no <div> direct child of <html>
+    var aDiv5 = Y.one('body > div');    // the demo <div> again   
+    var aDiv6 = Y.one('div[dir=rtl]');  // the demo <div> one last time
+});
+</script>

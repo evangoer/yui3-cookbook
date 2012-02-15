@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<title>Representing Data with a Model</title>
+
+<div id="demo"></div>
+<button id="undo">Undo</button>
+    
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('bookmark', function (Y) {
+
+    Y.Bookmark = Y.Base.create('bookmark', Y.Model, [], {
+        initializer: function () {
+            this.after('titleChange', function (ev) {
+                Y.log('Was: ' + ev.prevVal + ', Now: ' + ev.newVal);
+            });
+        }
+    }, {
+        ATTRS: {
+            title: {},
+            url: {}
+        }
+    });
+}, '1.0', { requires: ['model'] });
+
+YUI().use('bookmark', 'node-base', function (Y) {
+    var bookmark = new Y.Bookmark({ 
+        title: 'YUI Library', 
+        url: 'http://yuilibrary.com' 
+    });
+    bookmark.after('titleChange', function () {
+        Y.one('#demo').setContent(bookmark.getAsHTML('title'));
+    });
+    bookmark.set('title', 'YUI Library -- now with <strong>MVC</strong>!');
+
+    Y.one('#undo').on('click', function () { bookmark.undo(); });
+});
+</script>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<title>Managing State with Attributes</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('electron', function (Y) {
+    var REST_ENERGY = 511.00;
+    
+    function Electron(config) {
+        this.addAttrs({
+            charge: {
+                value: -1,
+                readOnly: true
+            },
+            energy: {
+                value: REST_ENERGY, 
+                validator: function (en) {
+                    return (en >= REST_ENERGY);
+                }
+            }
+        }, config);
+    }
+    
+    Y.Electron = Y.augment(Electron, Y.Attribute);
+}, '1.0', {requires: ['attribute']});
+
+YUI().use('electron', function (Y) {
+    var e1 = new Y.Electron({ energy: 708.72, charge: 2 });
+    Y.log("e1's energy is " + e1.get('energy') + ' MeV.');
+    Y.log("e1's charge is " + e1.get('charge'));
+
+    var e2 = new Y.Electron();
+    e2.on('energyChange', function (ev) {
+        Y.log("Trying to change e2's energy to " + ev.newVal + ' ...');
+    });
+    e2.after('energyChange', function (ev) {
+        Y.log("e2's energy changed from " + ev.prevVal + ' to ' + ev.newVal);
+    });
+    e2.set('energy', 400);
+    e2.set('energy', 1200);    
+});
+</script>

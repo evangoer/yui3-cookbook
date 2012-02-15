@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<title>Loading the YUI node Rollup</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.one('#demo').setContent('Whoa.');
+});
+</script>

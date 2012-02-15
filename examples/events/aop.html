@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Using AOP to Log Node Creation</title>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI().use('node', function (Y) {    
+    var logCreate = function (fragment) {
+        Y.log('CREATED: ' + fragment);
+    };
+    var logHandle = Y.Do.after(logCreate, Y.Node, 'create');
+    
+    var musketeers = Y.Node.create('<ul></ul>');
+    Y.Node.create('<li>Athos</li>').appendTo(musketeers);
+    Y.Node.create('<li>Porthos</li>').appendTo(musketeers);
+    Y.Node.create('<li>Aramis</li>').appendTo(musketeers);    
+    
+    logHandle.detach();
+    Y.Node.create("<li>d'Artagnan</li>").appendTo(musketeers);
+    
+    musketeers.appendTo(Y.one('body'));
+});
+</script>

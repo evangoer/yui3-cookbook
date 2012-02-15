@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Plugging an Input Node with Highlighting AutoComplete</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'autocomplete-highlighters', function (Y) {
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultHighlighter: 'phraseMatch',
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    });
+});
+</script>

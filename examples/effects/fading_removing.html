@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title>Fading and Removing an Element in Response to a Click</title>
+<style>
+#demo { width: 100px; height: 100px; border: 1px #000 solid; background: #d72; }
+</style>
+
+<button id="hide">Hide</button> <button id="show">Show</button>
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', 'transition', function (Y) {
+    var demo = Y.one('#demo');
+    
+    Y.one('#hide').on('click', function () {
+        demo.hide({ duration: 2.0 }, function () {
+            demo.remove();
+        });
+    });
+
+    Y.one('#show').on('click', function () {
+        Y.one('#show').insert(demo, 'after');
+        demo.show({ duration: 1.5 });
+    });
+});
+</script>

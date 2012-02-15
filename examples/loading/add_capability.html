@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<title>Loading Modules Based on Browser Capabilities</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    modules: {
+        'suitcase': {
+            fullpath: 'suitcase.js' 
+        },
+        'suitcase-legacy': {
+            fullpath: 'suitcase-legacy.js', 
+            condition: {
+                trigger: 'suitcase',
+                test: function () {
+                    try {
+                        return window.localStorage ? false : true;
+                    } catch(ex) {
+                        return true;
+                    }
+                }
+            },
+            requires: ['suitcase', 'cookie'] 
+        }
+    }
+}).use('node', 'suitcase', function (Y) {
+    var type = Y.Cookie ? 'battered, legacy' : 'sleek, ultra-modern';
+    Y.Suitcase.set('foo', 'bar');
+    Y.one('#demo').setContent('In your ' + type + ' suitcase: ' + Y.Suitcase.get('foo'));
+});
+</script>

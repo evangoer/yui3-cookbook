@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<title>Rendering HTML with a View</title>
+<style>
+.error { border: 1px #600 solid; padding: 2px; background: #faa; color: #400; }
+</style>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().add('errorpane', function (Y) {
+    Y.ErrorPane = Y.Base.create('errorpane', Y.View, [], {
+        events: {
+            'button': {'click': 'fadeOut'}
+        },
+        fadeOut: function () {
+            this.get('container').hide(true, Y.bind(this.destroy, this));
+        },
+        render: function () {
+            var container = this.get('container');
+            container.setContent('<button>Ignore</button> ' + this.get('msg'));
+            Y.one('body').append(container);
+            return this;
+        }
+    }, {
+        ATTRS: {
+            msg: {}
+        }
+    });
+}, '1.0', { requires: ['view', 'transition'] });
+
+YUI().use('errorpane', function (Y){
+    var errorpane = new Y.ErrorPane({ 
+        msg: 'kernel: lp0 on fire', 
+        container: Y.Node.create('<div class="error"/>')
+    });
+    errorpane.render();
+});
+</script>

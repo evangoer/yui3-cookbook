@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Creating a Constrained Resizable Node</title>
+<style>
+#demo { 
+    width: 100px; height: 100px; border: 1px #000 solid; background: #d72; 
+    position: relative;
+}
+</style>
+
+<div id="demo"></div>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI().use('resize', 'resize-constrain', function (Y) { 
+    var resize = new Y.Resize({ node: '#demo' });   
+    resize.plug(Y.Plugin.ResizeConstrained, {
+        minWidth: 50,
+        maxWidth: 200
+    });
+});
+</script>

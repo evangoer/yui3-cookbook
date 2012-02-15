@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<title>Creating a Draggable Node with a Handle</title>
+<style>
+#demo { width: 100px; height: 100px; border: 1px #000 solid; background: #d72; }
+#demo p { margin: 0px; padding 3px; border-bottom: 1px #000 solid; background: #e9e; }
+</style>
+
+<div id="demo"><p>handle</p></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('dd-drag', function (Y) {
+    var dd = new Y.DD.Drag({ 
+        node: '#demo', 
+        handles: ['p']
+    });
+});
+</script>

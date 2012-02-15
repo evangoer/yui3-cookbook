@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Binding a YUI Instance to an iFrame</title>
+
+<iframe src="iframe.html" id="frame"></iframe>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var frame = document.getElementById('frame'),
+        win = frame.contentWindow,
+        doc = frame.contentWindow.document;
+
+    YUI({ win: win, doc: doc }).use('node', function (innerY) {
+        var innerBody = innerY.one('body');
+        innerBody.addClass('foo');
+        innerBody.append('<p>YUI3 was loaded!</p>');
+    });
+});
+</script>

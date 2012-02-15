@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<title>Fixing the Context with Y.bind()</title>
+<style>
+.notice  { color: #00c; }
+.warning { color: #e80; }
+.caution { color: #f00; }
+</style>
+
+<p>"Though this be madness, there is method in it."</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var notifier = {
+        msgType: 'caution',
+        mark: function (ev, level) {
+            ev.target.addClass(this.msgType);
+        }
+    };
+    var fn = Y.bind(notifier.mark, notifier);
+    Y.one('p').on('click', fn);
+});
+</script>

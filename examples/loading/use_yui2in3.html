@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Loading a YUI 2 TreeView in YUI 3</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('yui2-treeview', function (Y) {
+    var YAHOO = Y.YUI2,
+        tree = new YAHOO.widget.TreeView('demo', [
+            { 
+                label: 'hats',
+                children: [
+                    { label: 'bowler' },
+                    { label: 'fedora' }
+                ]
+            },
+            { 
+                label: 'gloves'
+            }
+        ]);
+    tree.render();
+});
+</script>

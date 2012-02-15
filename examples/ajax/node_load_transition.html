@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<title>Loading HTML Content into a Node with a Fade</title>
+
+<h1>My Awesome Documentation</h1>
+<ul id="nav">
+    <li><a href="install.html">Installation</a></li>
+    <li><a href="examples.html">Examples</a></li>
+    <li><a href="api.html">API Reference</a></li>
+</ul>
+<div id="main">
+    <p>Some great documentation is about to appear here!</p>
+    <p>Boy howdy!</p>
+</div>
+<p id="footer">This is a footer. Copyright 2012, by ME.</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-load', 'transition', function (Y) {
+    var main = Y.one('#main');
+    
+    Y.all('#nav a').on('click', function (ev) {
+        ev.preventDefault();
+        main.transition('fadeOut', function () {
+            main.load(ev.target.get('href'), '#content', function () {
+                Y.one('h1').setContent(ev.target.getContent());
+                main.transition('fadeIn');
+            });
+        });
+    });
+});
+</script>

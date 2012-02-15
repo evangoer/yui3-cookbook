@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Creating a TabView from JavaScript</title>
+
+<body class="yui3-skin-sam">
+<div id="tabview"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('tabview', function (Y) {
+    var tabview = new Y.TabView({
+        width: 400,
+        children: [{
+            label: 'A',
+            content: '<p>This is Tab A.</p>'
+        }, {
+            label: 'B',
+            content: '<p>This is Tab B.</p>'
+        }]
+    }).render('#tabview');
+    
+    tabview.add({ 
+        label: 'C', 
+        content: '<p>This is Tab C. Surprised?</p>'
+    }, tabview.size());
+});
+</script>
+</body>

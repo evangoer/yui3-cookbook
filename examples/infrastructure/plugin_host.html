@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<title>Creating a Plugin that Alters Host Behavior</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('title-plugin', function (Y) {
+    Y.Plugin.Title = Y.Base.create('titlePlugin', Y.Plugin.Base, [], {
+        initializer: function () {
+            if (this.get('rendered')) {
+                this.addTitle();
+            } else {
+                this.afterHostMethod('renderUI', this.addTitle);
+            }
+        },
+        destructor: function () {
+            this.titleNode.remove(true);
+        },
+        addTitle: function () {
+            var boundingBox = this.get('host').get('boundingBox');
+            this.titleNode = Y.Node.create(this.get('titleElement'));
+            this.titleNode.setContent(this.get('title'));
+            boundingBox.prepend(this.titleNode);
+        },
+        titleNode: null,
+    }, {
+        NS: 'title',
+        ATTRS: {
+            title: { value: '' },
+            titleElement: { value: '<h3/>' }
+        }
+    });
+}, '1.0', { requires: ['base-build', 'plugin'] });
+
+YUI().use('title-plugin', 'calendar', function (Y) {
+    var calendar = new Y.Calendar({ width: '300px'});
+    Y.one('body').addClass('yui3-skin-sam');
+    
+    calendar.plug(Y.Plugin.Title, { title: 'Example Calendar' });
+    calendar.render('#demo');
+});
+</script>

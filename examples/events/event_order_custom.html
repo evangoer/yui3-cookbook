@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<title>Controlling Event Handler Execution Order (Custom Events)</title>
+
+<p>Check your browser error console for exciting log action!</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('event-base', function(Y) {
+    Y.on('my:example', function () { Y.log('I will execute first.') });
+    Y.after('my:example', function () { Y.log('I will execute third.') });
+    Y.on('my:example', function () { Y.log('I will execute second.') });
+    
+    Y.fire('my:example');
+});
+</script>

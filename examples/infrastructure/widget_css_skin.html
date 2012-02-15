@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<title>Creating a Widget with a Skin</title>
+
+<body class="yui3-skin-sam">
+
+<p>Click the electron to increase its energy by 10%.</p>
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    groups: {
+        localModules: {
+            base: './ex2/',
+            modules: {
+                'electron': {
+                    path: 'electron/js/electron.js',
+                    requires: ['base-build', 'widget'],
+                    skinnable: true
+                }
+            }
+        }
+    }
+}).use('electron', function (Y) {
+    var e = new Y.Electron();
+    e.render('#demo');
+});
+</script>
+</body>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Plugging an Input Node with Basic AutoComplete</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', function (Y) {
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    });
+    
+    input.ac.on('select', function (ev) {
+        Y.one('body').append('<p>Yum, ' + ev.result.text + '!</p>');
+    });
+});
+</script>

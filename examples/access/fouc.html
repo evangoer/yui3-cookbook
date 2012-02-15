@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Avoiding the Flash of Unstyled Content</title>
+<style>
+.yui3-js-enabled .yui3-tabview-loading { display: none; }
+</style>
+
+<body class="yui3-skin-sam">
+<div>header</div>
+<div id="demo" class="yui3-tabview-loading">
+    <ul>
+        <li><a href="#a">A</a></li>
+        <li><a href="#b">B</a></li>
+    </ul>
+    <div>
+        <div id="a"><p>This is Tab A.</p></div>
+        <div id="b"><p>This is Tab B.</p></div>
+    </div>
+</div>
+<div>footer</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('tabview', function (Y) {
+    new Y.TabView({ srcNode: '#demo' }).render();        
+});
+</script>
+</body>

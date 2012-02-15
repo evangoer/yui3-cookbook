@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<title>Handling Errors During Data Transport</title>
+
+<ol id="candy_report"></ol>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('io-base', 'node-base', function (Y) {
+    var ol = Y.one("#candy_report");
+    
+    Y.io('candy_store.php', { 
+        data: 'candy=licorice',
+        on: {
+            start: function (id) {
+                ol.append('<li>Off to the candy store... </li>');
+            },
+            complete: function (id, response) {
+                ol.append('<li>Back from the candy store!</li>');
+            },
+            success: function (id, response) {
+                ol.append('<li>Yum!</li>');
+            },
+            failure: function (id, response) {
+                var msg;
+                switch(response.status) {
+                    case 402: 
+                        msg = 'Turns out, we have no candy money.';
+                        break;
+                    case 403: 
+                        msg = 'Mom said no candy. Oh, well.';
+                        break;
+                    case 404: 
+                        msg = 'Cannot find the store. Are you sure there is one?';
+                        break;
+                    default: 
+                        msg = 'Could not obtain candy. ' + response.statusText;
+                }
+                ol.append('<li style="color: red">Oh no! ' + msg + ' :( </li>');
+            },
+            end: function (id) {
+                ol.append('<li>Well, that was an adventure!</li>');
+            }
+        }
+    });
+});
+</script>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<title>Merging Common and Page-specific YUI Configuration</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script src="/js/yui_config_incomplete.js"></script>
+<script>
+YUI({
+    groups: {
+        'local-modules': {
+            base: '/js/local-modules/',
+            modules: {
+                'reptiles-stomp': {
+                    path: 'reptiles-stomp/reptiles-stomp.js'
+                }
+            }
+        }
+    }    
+}).use('reptiles-core', function (Y) {
+    Y.Reptiles.info(Y.one('#demo'));
+});
+</script>

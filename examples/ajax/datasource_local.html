@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<title>Using a Local DataSource</title>
+
+<h1>JSLint: Recently closed issues</h1>
+<ol id="issues"></ol>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datasource-local', 'node-base', function (Y) {
+    var src = [
+        { 'id': 2318990, 'html_url':'#', 'title':'Bug? inconsistent whitespace flagging' },
+        { 'id': 2092345, 'html_url':'#', 'title':'newcap has no effect on `this`' },
+        { 'id': 1920535, 'html_url':'#', 'title':'Filtering the body of a "for in" loop' }
+    ];
+    var dataSource = new Y.DataSource.Local({ source: src });
+    
+    function displayIssues(rsp) {
+        var issues = rsp.response.results,
+            template = '<li><a href="{html_url}">{id}</a> {title}</li>',
+            ol = Y.one('#issues');
+        Y.Array.each(issues, function (issue) {
+            ol.append(Y.Lang.sub(template, issue));
+        });
+    }
+    
+    dataSource.sendRequest({
+        on: {
+            success: displayIssues
+        }
+    });
+});
+</script>

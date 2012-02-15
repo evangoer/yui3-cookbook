@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<title>Uploading a File with XHR</title>
+
+<p>Please upload a poem, essay, or image expressing your 
+thoughts about your favorite JavaScript library.</p>
+<form id="form" enctype="multipart/form-data" action="io_fileupload.php" method="POST">
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000">
+    File: <input name="ode" type="file">
+    <input type="submit" value="Upload File">
+</form>
+<p id="uploaded">File not yet uploaded...</p>
+    
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('io-upload-iframe', 'json-parse', function (Y) {
+    function submitForm(ev) {
+        ev.preventDefault();     
+        Y.io('io_fileupload.php', {
+            method: 'POST',
+            form: {
+                id: Y.one('#form'),
+                upload: true
+            },
+            on: {
+                complete: function(id, response) {
+                    var file = Y.JSON.parse(response.responseText),
+                        msg = 'Uploaded: ' + file.name + ' (' + file.size + ' bytes)';
+                    Y.one('#uploaded').setContent(msg);
+                }
+            }
+        });
+    }
+
+    Y.on('submit', submitForm, '#form');
+});
+</script>

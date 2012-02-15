@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<title>Changing the Background Color on Mouseover</title>
+<style>
+div { border: 1px #000 solid; background: #a22; height: 100px; width: 100px; }
+.over { background: #2a2; }
+</style>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    Y.one('#demo').on('mouseover', function (ev) {
+        ev.target.addClass('over');
+    });
+    Y.one('#demo').on('mouseout', function (ev) {
+        ev.target.removeClass('over');
+    });
+});
+</script>

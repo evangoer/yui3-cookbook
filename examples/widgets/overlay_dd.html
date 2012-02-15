@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<title>Two Draggable Overlays</title>
+<style>
+.yui3-overlay   { width: 200px; border: 1px #259 solid; border-radius: 5px; }
+.yui3-widget-hd { background: #00cccc; padding: 2px; }
+.yui3-widget-bd { background: #47a3ff; padding: 2px; }
+.yui3-widget-ft { background: #0a85ff; padding: 2px; }
+</style>
+
+<p>Dear Overlay: I'm feeling a bit smothered. Respectfully, P.</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', 'dd-plugin', function (Y) {
+    var overlayBottom = new Y.Overlay({ 
+        headerContent: 'Head [drag handle!]',
+        bodyContent: 'Body'
+    });
+    
+    var overlayTop = new Y.Overlay({
+        bodyContent: 'Body',
+        footerContent: 'Foot',
+        xy: [30,30], 
+        zIndex: 1
+    });
+    
+    overlayBottom.plug(Y.Plugin.Drag, { handles: ['.yui3-widget-hd'] });
+    overlayTop.plug(Y.Plugin.Drag);
+    overlayBottom.render();
+    overlayTop.render();
+});
+</script>

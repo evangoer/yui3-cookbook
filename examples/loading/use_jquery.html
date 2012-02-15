@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<title>Loading jQuery as a YUI Module</title>
+<style>
+h4 { margin: 25px 0px 10px 0px; }
+div.container { width: 300px; }
+</style>
+
+<body class="yui3-skin-sam">
+
+<h4>YUI 3 Calendar Widget</h4>
+<div class="container" id="ycalendar"></div>
+
+<h4>jQuery UI Calendar Plugin</h4>
+<div class="container" id="datepicker"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    groups: {
+        'jquery': {
+            base: 'http://ajax.googleapis.com/ajax/libs/',
+            async: false,
+            modules: {
+                'jquery': {
+                    path: 'jquery/1.7/jquery.min.js'
+                },
+                'jquery-ui': {
+                    path: 'jqueryui/1.8/jquery-ui.min.js',
+                    requires: ['jquery', 'jquery-ui-css']
+                },
+                'jquery-ui-css': {
+                    path: 'jqueryui/1.8/themes/base/jquery-ui.css',
+                    type: 'css'
+                }
+            }
+        }
+    }
+}).use('calendar', 'jquery-ui', function (Y) {
+    new Y.Calendar().render('#ycalendar');
+    $('#datepicker').datepicker();
+    Y.one('body').append('<p>YUI and jQuery, living together, mass hysteria!</p>');
+});
+</script>
+</body>

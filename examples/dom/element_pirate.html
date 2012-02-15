@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Adding a Read-Only pirate Property</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var demo = Y.one('#demo');
+        
+    Y.Node.ATTRS.pirate = {
+        getter: function() {
+            var normalText = this.get('text'),
+                pirateMap = {'hello':'ahoy', 'my':'me', 'the':"th'", 
+                    'you':'ye', 'to':"t'", 'is':'be', 'talk':"be talkin'"},
+                pirateText = normalText.replace(/\b\w*\b/g, function (word) {
+                    return pirateMap[word] || word;
+                });
+            
+            return pirateText + ' Arrrr!';
+        }
+    };
+    
+    demo.setContent('It is fun to talk like a pirate!');    
+    demo.setContent(demo.get('pirate'));
+});
+</script>

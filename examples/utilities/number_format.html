@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Formatting a Number into a Currency String</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatype-number', 'node-base', function (Y) {
+    var usdFormat = {
+        prefix: '$',
+        suffix: ' (USD)',
+        decimalPlaces: 2,
+        thousandsSeparator: ','
+    };
+    
+    function displayDollars(pennies) {
+        return Y.DataType.Number.format(pennies/100, usdFormat);
+    }    
+    Y.one('#demo').append(displayDollars(115380));
+});
+</script>

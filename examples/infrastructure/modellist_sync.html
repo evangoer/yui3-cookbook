@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<title>Managing Models with a Syncing ModelList</title>
+
+<button id="clear">Clear localStorage</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('bookmark-list', function (Y) {
+
+    Y.Bookmark = Y.Base.create('bookmark', Y.Model, [], {
+        sync: function (action, options, callback) {
+            var data,
+                index,
+                err = null,
+                bookmarks = Y.JSON.parse(localStorage.getItem('bookmarks')) || [];
+                
+            function findIndex(id) {
+                for (var ix = 0; ix < bookmarks.length; ix += 1) {
+                    if (id === bookmarks[ix].id) {
+                        return ix;
+                    }
+                }
+                err = '"' + this.get('id') + '" not found in localStorage';
+                return -1;
+            }
+            
+            switch(action) {
+                case 'create':
+                    this.set('id', 'ID_' + this.get('url'));
+                    data = this.toJSON();
+                    bookmarks.push(data);
+                    localStorage.setItem('bookmarks', Y.JSON.stringify(bookmarks));
+                    break;
+                case 'update':
+                    index = findIndex(this.get('id'));
+                    if (index != -1) {
+                        data = this.toJSON();
+                        bookmarks[index] = data;
+                        localStorage.setItem('bookmarks', Y.JSON.stringify(bookmarks));
+                    }
+                    break;
+                case 'read':
+                    index = findIndex(this.get('id'));
+                    if (index != -1) {
+                        data = bookmarks[index];
+                    }
+                    break;
+                default:
+                    err = 'Invalid action';
+            }
+
+            if (Y.Lang.isFunction(callback)) {
+                callback(err, data);
+            }            
+        },
+    }, {
+        ATTRS: {
+            title: {},
+            url: {}
+        }
+    });
+    
+    Y.BookmarkList = Y.Base.create('bookmarkList', Y.ModelList, [], {
+        model: Y.Bookmark,
+        comparator: function (bookmark) {
+            return bookmark.get('title');
+        },
+        sync: function (action, options, callback) {
+            var data, err = null;
+            
+            if (action === 'read') {
+                data = Y.JSON.parse(localStorage.getItem('bookmarks')) || [];
+            }
+            else {
+                err = 'Invalid action';
+            }
+            
+            if (Y.Lang.isFunction(callback)) {
+                callback(err, data);
+            }
+        }
+    });
+    
+}, '1.0', { requires: ['model', 'model-list', 'json'] });
+
+YUI().use('bookmark-list', 'node-base', function (Y) {
+    var list = new Y.BookmarkList();
+    
+    Y.one('#clear').on('click', function () { 
+        localStorage.clear();
+        Y.log('Cleared localStorage. Please reload the page.');
+    });
+    
+    list.load(function (err, data) {
+        if (list.size() === 0) {
+            Y.log("No bookmarks saved yet. Let's create some...");
+            list.create({ url: 'http://yuilibrary.com', title: 'YUI Library' });
+            list.create({ url: 'http://yuiblog.com', title: 'YUI Blog' });
+            Y.log('Two bookmarks persisted. Please reload the page.')
+        }
+        else {
+            list.each(function (bookmark) {
+                Y.log('Retrieved: ' + bookmark.get('title') + ', ' + bookmark.get('url'));
+            });
+        }
+    });
+});
+</script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<title>Local Search Results with a Custom Result Formatter</title>
+<style>
+input#demo { width: 20em; }
+.vcard { font-size: 11px; font-family: verdana; color: #555; }
+.fn { font-size: 13px; background: #ddd; color: #000; padding: 2px; }
+.yui3-aclist-item-active .vcard { color: #fff; }
+.yui3-aclist-item-active .fn { background: #ddf; }
+</style>
+
+<form class="yui3-skin-sam">
+    <label>In Palo Alto, find: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'autocomplete-sources', function (Y) {
+    function formatter(query, results) {
+        var template = '<div class="vcard">'
+            + '<div class="adr">'
+            + '<div class="org fn"><div class="organization-name">{Title}</div></div>'
+            + '<span class="street-address">{Address}</span>, '
+            + '<span class="locality">{City}</span>, ' 
+            + '<span class="region">{State}</span> '
+            + '</div>'
+            + '<div class="tel"><span class="type">Tel</span>: {Phone}</div>';
+            
+        return Y.Array.map(results, function (result) {
+            return Y.Lang.sub(template, result.raw);
+        });
+    };
+    
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultListLocator: 'query.results.Result',
+        resultTextLocator: 'Title',
+        resultFormatter: formatter,
+        source: 'select * from local.search where zip="94301" and query="{query}"'
+    });
+});
+</script>

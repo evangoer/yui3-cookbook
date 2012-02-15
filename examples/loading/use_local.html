@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<title>Loading a Local Copy of YUI</title>
+
+<div id="demo"></div>
+
+<script src="/js/yui/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.one('#demo').setContent('All politics is local.');
+});
+</script>

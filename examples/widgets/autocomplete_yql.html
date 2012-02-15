@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Fetching YQL Data for AutoComplete</title>
+
+<form class="yui3-skin-sam">
+    <label>Read article: <input type="text" id="demo" style="width: 40em;"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'autocomplete-sources', function (Y) {
+    var input = Y.one('#demo').plug(Y.Plugin.AutoComplete, {
+        resultListLocator: 'query.results.content',
+        resultTextLocator: 'web-title',
+        source: 'select * from guardian.content.search where q="{query}"',
+    });
+    
+    input.ac.on('select', function (ev) {
+        window.location = ev.result.raw['web-url'];
+    });
+});
+</script>

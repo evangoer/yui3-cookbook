@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Templating with Simple String Substitution - Inline Template</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script id="template" type="text/x-template">
+<p>
+    <b>{name}:</b> {job} of {loc};
+    In a relationship with {mate}
+</p>
+</script>
+<script>
+YUI().use('node-base', function (Y) {
+    var template = Y.one('#template').getContent();
+    var people = [
+        { name: 'John Carter', job: 'Adventurer', loc: 'Virginia', mate: 'Dejah Thoris' },
+        { name: 'Dejah Thoris', job: 'Princess', loc: 'Helium', mate: 'John Carter' },
+        { name: 'Tars Tarkas', job: 'Jeddak', loc: 'Thark', mate: 'Gozava' }
+    ];
+    
+    Y.Array.each(people, function (person) {
+        var html = Y.Lang.sub(template, person);
+        Y.one('#demo').append(html);
+    });
+});
+</script>

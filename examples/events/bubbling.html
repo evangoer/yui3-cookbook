@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Controlling Event Propagation and Bubbling</title>
+
+<div id="i-want-candy">
+    <ul id="candy-filter">
+        <li class="veggie">Broccoli</li>
+        <li class="candy">Chocolate Bar</li>
+        <li class="veggie">Eggplant</li>
+        <li class="candy">Lollipops</li>
+    </ul>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    Y.one('#candy-filter').on('click', function (ev) {
+        if (! ev.target.hasClass('candy')) {
+            ev.stopPropagation();
+        }
+    });
+    Y.one('#i-want-candy').on('click', function (ev) {
+        Y.one('body').append('<b>Yum! </b>');
+    });
+});
+</script>

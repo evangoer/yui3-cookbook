@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Operating on a Collection of Elements</title>
+<style>
+.highlight { background: #c66; }
+</style>
+
+<div id="demo">
+    <ul>
+        <li>Apples</li>
+        <li>Bananas</li>
+        <li>Cherries</li>
+    </ul>
+    <ol>
+        <li>Strawberries</li>
+        <li>Tomatoes</li>
+    </ol>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var listItems = Y.all('#demo li');
+    listItems.addClass('highlight');
+});
+</script>

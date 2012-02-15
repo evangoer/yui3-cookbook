@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<title>Validating Forms</title>
+<style>
+.formmgr-status-failure { font-weight: bold; color: #f00; }
+.formmgr-haserror .formmgr-message-text { color: #f00; }
+</style>
+
+<p id="form-status"></p>
+<form method="get" action="http://yuilibrary.com" name="example_form">
+    <p>
+        <label for="username">Username</label> 
+        <input type="text" id="username" class="yiv-required">
+    </p>
+    <p>
+        <label for="age">Age</label> 
+        <input type="text" id="age" class="yiv-required yiv-integer:[0,130]">
+    </p>
+    <p><input type="submit" value="Submit Form"></p>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('gallery-formmgr', function (Y) {
+    var form = new Y.FormManager('example_form', {
+        status_node: '#form-status'
+    });
+    
+    Y.all('form p').addClass('formmgr-row')
+    Y.all('input').insert('<span class="formmgr-message-text"/>', 'after');
+    
+    form.prepareForm();
+        
+    Y.one('form').on('submit', function (ev){
+        form.validateForm();
+        if (form.hasErrors()) {
+            ev.preventDefault();
+        };
+    });
+});
+</script>

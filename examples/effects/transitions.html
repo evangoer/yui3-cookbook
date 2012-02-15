@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<title>A Series of Transitions</title>
+<style>
+#demo {
+    width: 200px; height: 200px; border: 1px #000 solid; background: #d72;
+    position: absolute;
+    text-align: center;
+    opacity: 0.3;
+}
+</style>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', 'transition', function (Y) {
+    var demo = Y.one('#demo');
+    
+    demo.transition({
+        duration: 2.5,
+        width: '100px',
+        height: '100px',
+        left: {
+            easing: 'ease-in',
+            value: '500px'
+        },
+        opacity: {
+            delay: 1.0,
+            duration: 1.75,
+            value: 1.0
+        },
+        on: {
+            start: function () { 
+                demo.setContent("It's just a jump to the left...");
+            },
+            end: function () { 
+                demo.setContent('And then a step to the riiight!');
+                demo.transition({
+                    duration: 2.0, 
+                    left: '0px', 
+                    easing: 'linear' 
+                }); 
+            }
+        }
+    });
+});
+</script>

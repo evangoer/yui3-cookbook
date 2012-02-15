@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Defining Translated Strings</title>
+
+<form id="ui">
+    <p><label for="name">name</label></p>
+    <p><input id="name" name="name" type="text"></p>
+    <p><label for="address">address</label></p>
+    <p><input id="address" name="address" type="text"></p>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('my-form', function (Y) {
+    Y.MyForm = {};
+    Y.MyForm.updateLabels = function() {
+        var strings = Y.Intl.get('my-form');
+        Y.one('label[for=name]').setContent(strings.name);
+        Y.one('label[for=address]').setContent(strings.address);
+    }
+
+    Y.Intl.add('my-form', 'en', {
+        name: 'name',
+        address: 'address'
+    });
+    Y.Intl.add('my-form', 'fr', {
+        name: 'nom',
+        address: 'adresse',
+    });
+    Y.Intl.add('my-form', 'es', {
+        name: 'nombre',
+        address: 'dirección',
+    });
+}, '1.0', {requires: ['node', 'intl']});
+
+YUI().use('my-form', function (Y) {
+    Y.Intl.setLang('my-form', 'fr');
+    Y.MyForm.updateLabels();
+});
+</script>

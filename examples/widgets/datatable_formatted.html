@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<title>Creating a Formatted DataTable</title>
+
+<body class="yui3-skin-sam">
+<div id="datatable"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatable', function (Y) {
+    var truncate = function (o) {
+        if (o.value.length > 30) {
+            var trunc = o.value.slice(0, 27) + '...';
+            return '<span title="' + o.value + '">' + trunc + '</span>';
+        }
+        return o.value;
+    };
+    var cols = [
+        { key: 'id', label: 'Ticket' },
+        { label: 'Ticket Overview', children: [
+            { key: 'cat', label: 'Cat', sortable: true },
+            { key: 'sev', label: 'Sev', sortable: true, formatter: 'S{value}' },
+            { key: 'title', label: 'Description', formatter: truncate, allowHTML: true }
+        ] }
+    ];
+    var data = [
+        { id: 290, sev: 5, cat: 'UI', title: 'Sidebar misaligned in IE6' },
+        { id: 819, sev: 1, cat: 'Ops', title: 'Site is down' },
+        { id: 100, sev: 3, cat: 'Devel', title: 'Deployment is taking too long' },
+        { id: 784, sev: 3, cat: 'UI', title: 'Marketing page has D YSlow grade' }
+    ];
+    
+    var table = new Y.DataTable({
+        columns: cols,
+        data: data,
+        caption: 'Open Tickets'
+    });
+    table.render('#datatable');
+});
+</script>
+</body>

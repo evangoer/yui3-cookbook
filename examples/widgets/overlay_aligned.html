@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<title>Aligning and Centering an Overlay</title>
+<style>
+.yui3-overlay   { width: 200px; border: 1px #c02727 solid; border-radius: 5px; }
+.yui3-widget-hd { background: #3b5bdf; padding: 2px; }
+.yui3-widget-bd { background: #fff64c; padding: 2px; }
+.yui3-widget-ft { background: #c02727; padding: 2px; }
+</style>
+
+<button id="kneel">Come to ME, Overlay!</button> 
+<button id="flyaway">No, I defy you</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', function (Y) {
+    var overlay = new Y.Overlay({ 
+        headerContent: 'Head',
+        bodyContent: 'Body',
+        footerContent: 'Foot',
+        centered: true
+    }).render();
+    
+    Y.one('#kneel').on('click', function () { 
+        overlay.align('#kneel', [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BC]); 
+    });
+    Y.one('#flyaway').on('click', function () { overlay.centered(); });
+});
+</script>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<title>Reorderable Drag &amp; Drop Table</title>
+<style>
+table.dd { 
+    border: 1px #000 solid; border-spacing: 1px; 
+    background: #844; width: 25em; 
+}
+table.dd th { background: #999; padding: 0.2em; }
+table.dd td { background: #ddd; padding: 0.2em; }
+table.dd td.over { background: #9c9; }
+table.dd tr.being-dragged { opacity: 0.5; }
+</style>
+
+<table class="dd">
+<thead>
+    <tr><th>Type</th><th>From</th><th>Weaknesses</th></tr>
+</thead>
+<tbody>
+    <tr><td>Vampires</td><td>Transylvania</td><td>Crosses, Garlic</td></tr>
+    <tr><td>Werewolves</td><td>The Forest</td><td>Silver, Teen Angst</td></tr>
+    <tr><td>Zombies</td><td>Unwise Experiments</td><td>Headshots</td></tr>
+    <tr><td>Robots</td><td>The Distant Future</td><td>Illogic</td></tr>
+    <tr><td>Ninjas</td><td>Feudal Japan</td><td>Dishonor</td></tr>
+    <tr><td>Pirates</td><td>The High Seas</td><td>Rum</td></tr>
+    <tr><td>Bob</td><td>Human Resources</td><td>None Known</td></tr>
+</tbody>
+</table>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('dd-drag', 'dd-drop', 'dd-proxy', 'dd-constrain', function (Y) {
+    var rows = Y.all('table.dd tbody tr');
+    rows.each(function (row) {
+        var rowDrop = new Y.DD.Drop({ node: row }),
+            rowDrag = new Y.DD.Drag({ node: row });
+            
+        rowDrag.plug(Y.Plugin.DDConstrained, { constrain2node: 'table.dd' });
+        rowDrag.plug(Y.Plugin.DDProxy, { moveOnEnd: false });
+    });
+    
+    function midpoint(node) {
+        return node.getY() + (node.get('offsetHeight') / 2);
+    }
+
+    Y.DD.DDM.on('drop:hit', function (ev) {
+        var drop = ev.drop.get('node'),
+            drag = ev.drag.get('node'),
+            proxy = ev.drag.get('dragNode');
+        
+        if (midpoint(proxy) >= midpoint(drop)) {
+            drop.insert(drag, 'after');
+        }
+        else {
+            drop.insert(drag, 'before');
+        }
+        drop.all('td').removeClass('over');
+    });
+    
+    Y.DD.DDM.on('drag:start', function (ev) {
+        ev.target.get('node').addClass('being-dragged');
+    });
+    
+    Y.DD.DDM.on('drag:end', function (ev) {
+        ev.target.get('node').removeClass('being-dragged');
+    });
+    
+    Y.DD.DDM.on('drop:over', function (ev) {
+        ev.drop.get('node').all('td').addClass('over');
+    });
+    
+    Y.DD.DDM.on('drop:exit', function (ev) {
+        ev.target.get('node').all('td').removeClass('over');
+    });
+});
+</script>

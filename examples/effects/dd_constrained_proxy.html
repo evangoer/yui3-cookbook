@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Creating a Constrained Draggable by Proxy Node</title>
+<style>
+#demo { width: 100px; height: 100px; border: 1px #000 solid; background: #d72; }
+#box  { width: 400px; height: 300px; border: 1px #000 dashed; background: #ccc; }
+</style>
+
+<div id="box"><div id="demo"></div></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('dd-drag', 'dd-proxy', 'dd-constrain', function (Y) {
+    var dd = new Y.DD.Drag({ node: '#demo' });
+    dd.plug(Y.Plugin.DDProxy);
+    dd.plug(Y.Plugin.DDConstrained, { constrain2node: '#box' });
+});
+</script>

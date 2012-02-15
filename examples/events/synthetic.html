@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<title>Defining a Middle-Click Synthetic Event</title>
+
+<div id="container">
+<p id="demo">Middle-click this paragraph.</p>
+<p>Or this paragraph.</p>
+<p>Or perhaps even this one.</p>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', 'event-synthetic', function (Y) {
+    Y.Event.define('middleclick', {
+        _handler: function (ev, notifier) {
+            if (ev.button === 2) {
+                notifier.fire(ev);
+            }
+        },
+        on: function (node, sub, notifier) {
+            sub.handle = node.on('mouseup', this._handler, this, notifier);
+        },
+        delegate: function (node, sub, notifier, filter) {
+            sub.delegateHandle = node.delegate('mouseup', this._handler, 
+                filter, this, notifier);
+        },
+        detach: function (node, sub, notifier) {
+            sub.handle.detach();
+        },
+        detachDelegate: function (node, sub, notifier) {
+            sub.delegateHandle.detach();
+        }
+    });
+
+    Y.one('#demo').on('middleclick', function () {
+        Y.one('body').append('<b>Awesome! </b>');
+    });
+    Y.one('#container').delegate('middleclick', function () {
+        Y.one('body').append('<b>Thanks! </b>');
+    }, 'p');
+});
+</script>

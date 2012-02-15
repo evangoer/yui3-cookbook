@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<title>Submitting Form Data with XHR</title>
+<style>
+.YES { color: green; }
+.NO  { color: red; }
+</style>
+
+<form id="form" action="io.php">
+<fieldset>
+    <legend>Murder Most Foul</legend>
+    <label><input type="radio" name="suspect" value="butler" checked> Jeeves</label>
+    <label><input type="radio" name="suspect" value="lord"> Mr. Blackstone</label>
+    <label><input type="radio" name="suspect" value="lady"> Lady Haversham</label>
+</fieldset>
+<input type="submit" value="Who dunnit?">
+</form>
+<p id="answer">Scotland Yard says...</p>
+    
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('io-form', 'json-parse', function (Y) {
+    function submitForm(ev) {
+        ev.preventDefault();     
+        Y.io('io.php', {
+            method: 'GET',
+            form: { id: Y.one('#form') },
+            on: {
+                complete: function(id, response) {
+                    var answer = Y.JSON.parse(response.responseText);
+                    Y.one('#answer').setContent(answer.guilty + '. ' + answer.comment)
+                        .set('className', answer.guilty);
+                }
+            }
+        });
+    }
+
+    Y.on('submit', submitForm, '#form');
+});
+</script>

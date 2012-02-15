@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<title>Defining Calendar Rules</title>
+<style>
+.band-practice { color: #a00; }
+</style>
+
+<body class="yui3-skin-sam">
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script type="text/javascript">
+YUI().use('calendar', 'datatype-date', 'datatype-date-math', function (Y) {
+    var calendar = new Y.Calendar({
+        width: 300,
+        disabledDatesRule: 'end_of_days',
+        date: new Date(1999, 11, 1),
+    }).render('#demo');
+
+    calendar.set('customRenderer', { 
+        rules: {
+            '1999': {
+                '11': {
+                    '31': 'end_of_days'
+                }
+            },
+            '2000-9999': {
+                'all': 'end_of_days'
+            },
+            'all': {
+                '9,10,11': {
+                    'all': {
+                        '2,5': 'band_practice'
+                    }
+                }
+            }
+        },
+        filterFunction:  function (date, node, rules) {
+            if (rules.indexOf('band_practice') !== -1) {
+                node.addClass('band-practice');
+            }
+        } 
+    });
+});
+</script>
+</body>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Creating a Default Horizontal Slider</title>
+
+<body class="yui3-skin-sam">
+<p>Grade: <span id="slider"></span></p>
+<p>I award you <span id="points">0</span> points.</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('slider', function (Y) {
+    var slider = new Y.Slider().render('#slider'),
+        points = Y.one('#points');
+        
+    slider.after('valueChange', function (ev) {
+        points.setContent(ev.newVal);
+    });
+});
+</script>
+</body>

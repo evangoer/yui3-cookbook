@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Plugging an Input Node with Filtering AutoComplete</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'autocomplete-filters', function (Y) {
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultFilters: 'phraseMatch',
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    });
+});
+</script>

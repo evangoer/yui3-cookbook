@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<title>Driving Applications with Custom Events</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('apollo', function (Y) {
+    var Apollo = Y.namespace('Apollo');
+    
+    Apollo.LunarModule = Y.Base.create('eagle', Y.Base, [], {
+        initializer: function () {
+            this.publish('landing', {
+                broadcast: 2,
+                defaultFn: function () {
+                    Y.log("ARMSTRONG -- That's one small step for [a] man...");
+                }
+            });
+        },
+        reportLanding: function (status) {
+            this.fire('landing', { ok: status });
+        },
+        tellJoke: function () {
+            this.fire('joke');
+        }
+    });
+    
+    Apollo.CommandModule = Y.Base.create('columbia', Y.Base, [], {
+        initializer: function () {
+            this.on('eagle:joke', function (ev) {
+                ev.stopPropagation();
+                Y.log('COLLINS -- Haha Buzz, you crack me up!');
+            });
+        }
+    });
+    
+    Apollo.MissionControl = Y.Base.create('houston', Y.Base, [], {
+        initializer: function () {
+            this.on('eagle:landing', function (ev) {
+                if (ev.ok) {
+                    Y.log('HOUSTON -- We copy you down, Eagle.');
+                }
+                else {
+                    ev.halt();
+                }
+            });
+            this.on('eagle:joke', function () {
+                Y.log('HOUSTON -- Stop goofing around and get back to work.');
+            });
+        }
+    });
+}, '11', {requires: ['base-build']});
+
+YUI().use('event-custom', function (Y){
+    Y.Global.on('eagle:landing', function () {
+        Y.log('WORLD -- Yay!');
+    });    
+});
+
+YUI().use('apollo', function (Y) {
+    var lunarModule = new Y.Apollo.LunarModule(),
+        commandModule = new Y.Apollo.CommandModule(),
+        missionControl = new Y.Apollo.MissionControl();
+    
+    lunarModule.addTarget(commandModule);
+    commandModule.addTarget(missionControl);
+    
+    lunarModule.tellJoke();          // => COLLINS -- Haha Buzz, you crack me up!
+
+    lunarModule.reportLanding(true); // => HOUSTON -- We copy you down, Eagle.
+                                     // => ARMSTRONG -- That's one small step for [a] man...
+                                     // => WORLD -- Yay!
+});
+</script>

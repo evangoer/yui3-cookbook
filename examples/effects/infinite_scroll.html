@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<title>Creating an Infinite Scroll Effect</title>
+<style>
+p { font-family: courier; color: #333; }
+</style>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('dom-core', 'node', function (Y) {
+    var lastParaId;
+    
+    function addContent(numParas) {
+        var i, content = '', 
+            para = '<p>All work and no play makes Jack a dull boy.</p>';
+        
+        for (i = 0; i < numParas; i += 1) {
+            content += para;
+        }
+        Y.one('#demo').append(content);
+        return Y.one('#demo p:last-child').generateID();
+    }
+    
+    function fillToBelowViewport() {
+        var lastPara = Y.one('#' + lastParaId).getDOMNode();
+        if (Y.DOM.inViewportRegion(lastPara)) {
+            lastParaId = addContent(10);
+        }
+    }
+    
+    Y.on('scroll', fillToBelowViewport);
+    
+    lastParaId = addContent(20);
+    fillToBelowViewport();
+});
+</script>

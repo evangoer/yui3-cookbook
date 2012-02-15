@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<title>Normalizing a Remote JSON DataSource with a DataSchema</title>
+
+<h1>JSLint: Recently closed issues</h1>
+<ol id="issues"></ol>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datasource-get', 'datasource-jsonschema', 'node-base', function (Y) {
+    var src = 'https://api.github.com/repos/douglascrockford/JSLint/issues?state=closed',
+        dataSource = new Y.DataSource.Get({ source: src });
+    
+    function displayIssues(rsp) {
+        var issues = rsp.response.results,
+            template = '<li><a href="{html_url}">{id}</a> {title}</li>',
+            ol = Y.one('#issues');
+        Y.Array.each(issues, function (issue) {
+            ol.append(Y.Lang.sub(template, issue));
+        });
+    }
+    
+    dataSource.plug(Y.Plugin.DataSourceJSONSchema, {
+        schema: {
+            resultListLocator: 'data',
+            resultFields: ['html_url', 'id', 'title']
+        }
+    });
+    
+    dataSource.sendRequest({ 
+        on: {
+            success: displayIssues
+        } 
+    });
+});
+</script>

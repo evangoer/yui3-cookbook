@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<title>Creating an Element</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.one('#demo').append("<h1>Don't Forget the Heading!</h1>");
+});
+</script>

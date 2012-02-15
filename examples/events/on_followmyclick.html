@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Following the User's Click</title>
+<style>
+div { border: 1px #000 solid; background: #a22; height: 100px; width: 100px; }
+</style>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.one('document').on('click', function (ev) {
+        Y.one('#demo').setXY([ev.pageX, ev.pageY]);
+    });
+});
+</script>

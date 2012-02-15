@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<title>Filtering Log Messages on Console Entry</title>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('console', function (Y) {
+    var demo = new Y.Console({ logLevel: 'error' }).render('#demo');
+    demo.on('entry', function (ev) {
+        if (! /upload/.test(ev.message.message)) {
+            ev.preventDefault(); 
+        }
+    });
+
+    Y.log('This is a critical error message.', 'error', 'example_app');
+    Y.log('File upload successful', 'info', 'example_app');
+    Y.log('File upload failed: server refused connection.', 'error', 'example_app');
+});
+</script>

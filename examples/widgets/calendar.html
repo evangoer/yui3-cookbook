@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Basic Calendar with selectionChange Listener</title>
+
+<body class="yui3-skin-sam">
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('calendar', function (Y) {
+    var calendar = new Y.Calendar({ width: 300 }).render('#demo');
+
+    calendar.after('selectionChange', function (ev) {
+        var date = ev.newSelection[0];
+        date = Y.DataType.Date.format(date, { format: '%B %e, %Y' });
+        Y.one('body').append('<p>You selected ' + date + '.</p>');
+    });
+});
+</script>
+</body>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Detaching Event Subscriptions</title>
+
+<button id="annoying_patron">Boy Howdy!</button>
+<button id="librarian">Sssh!</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) { 
+    var handle = Y.on('click', function () {
+        Y.one('body').append('<p>Boy howdy, this sure is a nice library!</p>');
+    }, '#annoying_patron');
+    
+    Y.on('click', function () {
+        Y.one('body').append('<p>Sssh!</p>');
+        handle.detach();
+    }, '#librarian');
+});
+</script>

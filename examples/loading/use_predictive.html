@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<title>Loading the Overlay Module Predictively</title>
+<style>
+.yui3-overlay-content {
+    padding: 2px;
+    border: 1px solid #000;
+    border-radius: 6px;
+    background-color: #afa;
+}
+</style>
+
+<button id="show">Show Overlay</button>
+<button id="hide">Hide Overlay</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    var callbacks = [],
+        overlay,
+        overlayLoading,
+        showButton = Y.one('#show'),
+        hideButton = Y.one('#hide');
+
+    var loadOverlay = function (callback) {
+        if (overlay) {
+            if (callback) {
+                callback();
+            }
+            return;
+        }
+
+        if (callback) {
+            callbacks.push(callback);
+        }
+        
+        if (overlayLoading) {
+            return;
+        }
+
+        overlayLoading = true;
+
+        Y.use('overlay', function () {
+            var callback;
+
+            overlay = new Y.Overlay({
+                bodyContent: 'Hello!',
+                centered: true,
+                visible: false,
+                height: 100,
+                width: 200,
+                zIndex: 2
+            }).render();
+
+            overlayLoading = false;
+
+            while (callback = callbacks.shift()) {
+                if (Y.Lang.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+
+    var showOverlay = function () {
+        if (overlay) {
+            overlay.show();
+        } else {
+            loadOverlay(showOverlay);
+        }
+    };
+
+    var hideOverlay = function () {
+        if (overlay) {
+            overlay.hide();
+            callbacks = [];
+        }
+    };
+
+    showButton.once('focus', loadOverlay);
+    showButton.once('mouseover', loadOverlay);
+    showButton.on('click', showOverlay);
+    hideButton.on('click', hideOverlay);
+});
+</script>

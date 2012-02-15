@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<title>Writing a Custom AutoComplete Highlighter</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'highlight', function (Y) {
+    function endsWith(query, results) {
+        query = query.toLowerCase();
+
+        return Y.Array.map(results, function(result) {
+            var resultText = result.text.toLowerCase(),
+                suffixIndex = resultText.length - query.length;
+
+            if (resultText.lastIndexOf(query) === suffixIndex) {
+                return Y.Highlight.all(result.text, query);
+            }
+            else {
+                return result.text;
+            }
+        });
+    }
+    
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultHighlighter: endsWith,
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    });
+});
+</script>

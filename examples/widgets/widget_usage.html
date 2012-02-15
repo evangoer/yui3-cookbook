@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Instantiating and Rendering a 300 pixel-wide Calendar</title>
+
+<body class="yui3-skin-sam">
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('calendar', function (Y) {
+    var calendar = new Y.Calendar({ 
+        width: 300 
+    });
+    calendar.render('#demo');
+});
+</script>
+</body>

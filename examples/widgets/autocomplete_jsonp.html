@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Fetching JSONP Data for AutoComplete</title>
+
+<form class="yui3-skin-sam">
+    <label>Go to tweet: <input type="text" id="demo" style="width: 40em"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', 'autocomplete-sources', function (Y) {
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultListLocator: 'results',
+        resultTextLocator: 'text',
+        source: 'http://search.twitter.com/search.json?q={query}&callback={callback}',
+    });
+    
+    input.ac.on('select', function (ev) {
+        var urlTemplate = 'http://twitter.com/{from_user}/status/{id_str}';
+        window.location = Y.Lang.sub(urlTemplate, ev.result.raw);
+    });
+});
+</script>

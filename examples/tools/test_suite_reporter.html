@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<title>Collecting and Posting Test Results</title>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI().use('json', 'test-console', function (Y) {    
+    var parseTests = new Y.Test.Case({
+        name: 'parse() Tests',
+
+        'JSON string should be parsed to JS object' : function () {
+            var result = Y.JSON.parse('{"value":"YUI3"}');
+            Y.Assert.isObject(result);
+            Y.Assert.areEqual('YUI3', result.value);
+        },
+
+        'JSON string should be parsed to JS array' : function () {
+            var result = Y.JSON.parse('[1, 2, 3, 4, 5]');
+            Y.ArrayAssert.itemsAreSame([1, 2, 3, 4, 5], result);
+        }
+    });
+
+    var stringifyTests = new Y.Test.Case({
+        name: 'stringify() Tests',
+
+        'JS object should be serialized to JSON string': function () {
+            var result = Y.JSON.stringify({ value: 'YUI3' });
+            Y.Assert.isString(result);
+            Y.Assert.areEqual('{"value":"YUI3"}', result);
+        },
+
+        'JS array should be serialized to JSON string': function () {
+            var result = Y.JSON.stringify([1, 2, 3, 4, 5]);
+            Y.Assert.isString(result);
+            Y.Assert.areEqual('[1,2,3,4,5]', result);
+        }
+    });
+
+    var testSuite = new Y.Test.Suite('Y.JSON Tests');
+    testSuite.add(parseTests);
+    testSuite.add(stringifyTests);
+
+    new Y.Test.Console().render('#demo');
+
+    var testRunner = Y.Test.Runner.add(testSuite);
+
+    testRunner.subscribe(Y.Test.Runner.COMPLETE_EVENT, function() {
+        var results = testRunner.getResults(),
+            reporter = new Y.Test.Reporter('http://localhost/report.php');
+        reporter.report(results);
+    });
+
+    testRunner.run();
+});
+</script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Adding the hasHTML5() method</title>
+
+<article id="demo"><p>Hello</p></article>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.Node.addMethod('hasHTML5', function(node) {
+        var html5elements = 'article, aside, audio, bdi, canvas, command, ' +
+            'datalist, details, embed, figcaption, figure, footer, header, ' + 
+            'hgroup, keygen, mark, meter, nav, output, progress, rp, rt, ' + 
+            'ruby, section, source, summary, time, video, wbr';
+        
+        return (this.one(html5elements) !== null);
+    });
+    
+    Y.log(Y.one('#demo').hasHTML5());
+    Y.log(Y.one('body').hasHTML5());
+});
+</script>

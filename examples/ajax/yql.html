@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Fetching and Displaying Data with YQL</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('yql', 'node-base', function (Y) {
+    var query = 'select * from local.search where zip="94301" and query="pizza"';
+    
+    Y.YQL(query, function (response) {
+        var ol = Y.Node.create('<ol/>');
+            results = response.query.results.Result;
+            
+        Y.each(results, function (r) {
+            ol.append('<li>' + r.Title + ' &mdash; ' + r.Phone + '</li>');
+        });
+        Y.one('body').append(ol);
+    });
+});
+</script>

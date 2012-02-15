@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Converting Color Values</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('dom-style', 'node', function (Y) {
+    var color = 'fuchsia',
+        colorHex = Y.Color.toHex(color),
+        colorRGB = Y.Color.toRGB(colorHex);
+    
+    Y.one('#demo').setStyle('color', colorRGB)
+        .setContent(color + ' === ' + colorHex + ' === ' + colorRGB);
+});
+</script>

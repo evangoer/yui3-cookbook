@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<title>Basic Debug Logging</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use(function (Y) {
+    Y.log('This is an informational debug message.', 'info', 'example_app');
+    Y.log('This is a warning message.', 'warn', 'example_app');
+    Y.log('This is a critical error message.', 'error', 'example_app');
+});
+</script>

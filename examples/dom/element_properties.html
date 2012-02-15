@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<title>Setting DOM Properties</title>
+
+<a id="demo">Quo vadimus?</a>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    Y.one('#demo').set('href', 'http://yuilibrary.com');
+});
+</script>

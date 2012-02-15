@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Creating a Simple, Styled Information Panel</title>
+
+<body class="yui3-skin-sam">
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('panel', function (Y) {
+    var panel = new Y.Panel({ 
+        width: 300, 
+        centered: true,
+        bodyContent: 'CAUTION: Watch out for random panels.'
+    }).render();
+});
+</script>
+</body>

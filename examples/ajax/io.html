@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<title>Fetching and Displaying Data with XHR</title>
+<style>
+h1   { font: bold 300px tahoma, sans-serif; text-align: center; margin: 0px; }
+p    { font: 13px tahoma, sans-serif; text-align: center; color: #444; }
+.NO  { color: red; }
+.YES { color: green; }
+</style>
+
+<h1 id="guilty"></h1>
+<p id="comment"></p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('io-base', 'node-base', 'json-parse', function (Y) {
+    function showAnswer(answer) {
+        Y.one('#guilty').setContent(answer.guilty).addClass(answer.guilty);
+        Y.one('#comment').setContent(answer.comment);
+    }
+    
+    Y.io('io.php', {
+        data: 'suspect=butler',
+        on: {
+            complete: function (id, response) {
+                if (response.status >= 200 && response.status < 300) {
+                    showAnswer(Y.JSON.parse(response.responseText));
+                }
+                else {
+                    showAnswer({
+                        guilty: 'NO',
+                        comment: 'Something terrible has happened.'
+                    });
+                }
+            }
+        }
+    });
+});
+</script>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Creating an Extremely Basic Overlay</title>
+
+<button id="hide">Hide</button> <button id="show">Show</button>
+
+<div id="overlay">Generic Overlay</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', function (Y) {
+    var overlay = new Y.Overlay({ srcNode: '#overlay' }).render();
+    
+    Y.one('#hide').on('click', function () { overlay.hide(); });
+    Y.one('#show').on('click', function () { overlay.show(); });
+});
+</script>

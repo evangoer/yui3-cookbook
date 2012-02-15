@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<title>Alarm Control</title>
+
+<form id="demo">
+    <p>Alarm:
+        <label><input type="radio" name="alarm" value="enabled"> Enabled</label>
+        <label><input type="radio" name="alarm" value="disabled"> Disabled</label>
+    </p>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('history', 'node', function (Y) {
+    var history = new Y.HistoryHash();
+    
+    function setAlarm() {
+        var alarm = history.get('alarm');
+        if (alarm === 'enabled' || alarm === 'disabled') {
+            Y.one('input[value=' + alarm + ']').set('checked', true);
+        }
+        else {
+            Y.all('input[type=radio]').set('checked', false);
+        }
+    }
+        
+    Y.one('#demo').on('change', function (ev) {
+        history.addValue('alarm', ev.target.get('value'));
+    });
+    
+    Y.on('history:change', function (ev) {
+        if (ev.src === Y.HistoryHash.SRC_HASH && ev.changed.alarm) {
+            setAlarm();
+        }
+    });
+    
+    setAlarm();
+});
+</script>

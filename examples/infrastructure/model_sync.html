@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<title>Persisting Model Data with a Sync Layer</title>
+
+<button id="clear">Clear localStorage</button>
+    
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('bookmark', function (Y) {
+
+    Y.Bookmark = Y.Base.create('bookmark', Y.Model, [], {
+        sync: function (action, options, callback) {
+            var data, err = null;
+            
+            switch(action) {
+                case 'create':
+                    this.set('id', 'ID_' + this.get('url'));
+                    data = this._update();
+                    break;
+                case 'update':
+                    data = this._update();
+                    break;
+                case 'read':
+                    data = localStorage.getItem(this.get('id'));
+                    if (! data) {
+                        err = '"' + this.get('id') + '" not found in localStorage.';
+                    }
+                    break;
+                default:
+                    err = 'Invalid action';
+            }
+            
+            if (Y.Lang.isFunction(callback)) {
+                callback(err, data);
+            }
+        },
+        _update: function () {
+            var data = this.toJSON();
+            localStorage.setItem(data.id, Y.JSON.stringify(data));
+            return data; 
+        }
+    }, {
+        ATTRS: {
+            title: {},
+            url: {}
+        }
+    });
+}, '1.0', { requires: ['model', 'json-stringify'] });
+
+YUI().use('bookmark', 'node-base', function (Y) {
+    var bookmark;
+    
+    Y.one('#clear').on('click', function () { 
+        localStorage.clear();
+        Y.log('Cleared localStorage. Please reload the page.');
+    });
+    
+    bookmark = new Y.Bookmark({ id: 'ID_http://yuilibrary.com' });
+    bookmark.load(function (err, data) {
+        if (err) {
+            var bmark = new Y.Bookmark({ 
+                title: 'YUI Library', 
+                url: 'http://yuilibrary.com' 
+            });
+            Y.log(err);            
+            bmark.save(function (err, data) {
+                Y.log('Bookmark data persisted. Please reload the page.');
+            });
+        } 
+        else {
+            Y.log('Retrieved: ' + bookmark.get('title') + ', ' + bookmark.get('url'));
+        }
+    });
+});
+</script>

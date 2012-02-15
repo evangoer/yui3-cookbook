@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<title>Rendering a ModelList with a View</title>
+
+<script src='http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js'></script>
+<script>
+YUI.add('bookmark', function (Y) {
+
+    Y.Bookmark = Y.Base.create('bookmark', Y.Model, [], {
+        initializer: function () { Y.log('Added: ' + this.get('url')) }
+    }, {
+        ATTRS: {
+            title: {},
+            url: {},
+        }
+    });
+    
+    Y.BookmarkView = Y.Base.create('bookmarkView', Y.View, [], {
+        template: '<a href="{url}">{title}</a>',
+        render: function (parentContainer) {
+            var content   = Y.Lang.sub(this.template, this.get('model').toJSON()),
+                container = this.get('container');
+                 
+            container.setContent(content);
+            if (container.get('parent') !== parentContainer) {
+                parentContainer.append(container);   
+            }
+            return this;
+        }
+    }, {
+        ATTRS: {
+            container: { 
+                valueFn: function () { return Y.Node.create('<li/>'); }
+            }
+        }
+    });
+    
+    Y.BookmarksView = Y.Base.create('bookmarksView', Y.View, [], {
+        template: '<form action="#">' +
+            '<label>Title: <input type="text" name="linkTitle"></label>' +
+            '<label>URL: <input type="text" name="linkURL"></label>' +
+            '<input type="submit" value="Add Bookmark">' +
+            '</form> <ul></ul>',
+        events: {
+            'form': { 'submit': 'addBookmark' }
+        },
+        initializer: function () {
+            var modelList = this.get('modelList');
+
+            this.after('modelList:add', this.renderBookmark, this);
+            this.after('modelListChange', function (ev) {
+                ev.prevVal && ev.prevVal.removeTarget(this);
+                ev.newVal && ev.newVal.addTarget(this);
+            });
+            
+            modelList && modelList.addTarget(this);
+        },
+        destructor: function () {
+            var modelList = this.get('modelList');
+            modelList && modelList.addTarget(this);
+        },
+        render: function () {
+            var container = this.get('container');
+            if (! container.inDoc()) {
+                container.append(this.template);
+                Y.one('body').append(container);                
+            }            
+            return this;
+        },
+        addBookmark: function (ev) {
+            this.get('modelList').add({
+                title: ev.target.get('linkTitle').get('value'), 
+                url: ev.target.get('linkURL').get('value')
+            });
+            ev.preventDefault();            
+        },
+        renderBookmark: function (ev) {
+            var view = new Y.BookmarkView({ model: ev.model });
+            view.render(this.get('container').one('ul'));
+        }
+    }, {
+        ATTRS: {
+            modelList: { value: new Y.ModelList({ model: Y.Bookmark }) }
+        }
+    });
+}, '1.0', { requires: ['model', 'model-list', 'view'] });
+
+YUI().use('bookmark', function (Y) {
+    var bookmarks = new Y.BookmarksView();
+    bookmarks.render();    
+});
+</script>

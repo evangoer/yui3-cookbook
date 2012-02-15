@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<title>Testing with a Mock Object</title>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('test-console', function (Y) {
+    function renderUI(renderQueue, renderFnToSkip) {
+        if (typeof renderFnToSkip === 'function' ) {
+            renderQueue.remove(renderFnToSkip);
+        }
+        renderQueue.run();
+    }
+
+    var testCase = new Y.Test.Case({
+        name: 'UI Rendering Tests',
+    
+        'App should start rendering, but with no Twitter widget' : function () {
+            var mockQueue = Y.Mock(),
+                renderTweetWidget = function () {};
+        
+            Y.Mock.expect(mockQueue, {
+                method: 'remove',
+                args: [renderTweetWidget]
+            });
+        
+            Y.Mock.expect(mockQueue, {
+                method: 'run',
+                args: []
+            });
+        
+            renderUI(mockQueue, renderTweetWidget);
+        
+            Y.Mock.verify(mockQueue);
+        }
+    });
+
+    new Y.Test.Console().render('#demo');
+
+    Y.Test.Runner.add(testCase);
+    Y.Test.Runner.run();
+});
+</script>

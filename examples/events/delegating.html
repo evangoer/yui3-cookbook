@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<title>Delegating with a CSS Selector</title>
+
+<div id="i-want-candy">
+    <ul>
+        <li class="veggie">Broccoli</li>
+        <li class="candy">Chocolate Bar</li>
+        <li class="veggie">Eggplant</li>
+        <li class="candy">Lollipops</li>
+    </ul>
+</div>
+
+<p><button name="candy">+ candy</button> <button name="veggie">+ veggie</button></p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-event-delegate', function (Y) {
+    Y.one('#i-want-candy').delegate('click', function () {
+        Y.one('body').append('<b>Yum! </b>');
+    }, 'li.candy');
+    
+    Y.all('button').on('click', function (ev) {
+        var name = ev.target.get('name'),
+            item = '<li class="' + name + '">' + name + '</li>';
+        Y.one('#i-want-candy ul').append(item);
+    });
+});
+</script>

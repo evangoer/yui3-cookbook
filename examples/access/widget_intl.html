@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Internationalizing a Widget</title>
+
+<p>Click the Y.Electron to increase its energy by 10%.</p>
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({ 
+    lang: 'fr, en', 
+    groups: {
+        'particles': {
+            base: '/js/particles/',
+            modules: {
+                'electron': {
+                    path: 'electron/electron.js',
+                    requires: ['base-build', 'widget', 'intl', 'electron-css'],
+                    lang: ['en', 'fr']
+                },
+                'electron-css': {
+                    path: 'electron/electron.css',
+                    type: 'css'
+                }
+            }
+        }
+    }
+}).use('electron', function (Y) {
+    var e = new Y.Electron();
+    e.render('#demo');
+});
+</script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Passing Arguments to an Object Method in an Event Handler</title>
+<style>
+.notice  { color: #00c; }
+.warning { color: #e80; }
+.caution { color: #f00; }
+</style>
+
+<p>"Though this be madness, there is method in it."</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var notifier = {
+        msgType: ['notice', 'warning', 'caution'],
+        mark: function (ev, level) {
+            ev.target.addClass(this.msgType[level]);
+        }
+    };
+    Y.one('p').on('click', notifier.mark, notifier, 2);
+});
+</script>

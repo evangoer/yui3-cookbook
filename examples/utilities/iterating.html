@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<title>Iterating over Arrays and Objects</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use(function (Y) {
+    var fruits = [ 'apple', 'mango', 'kiwi' ],
+        veggies = { 'carrots': 0, 'radishes': 7, 'squash': 3 };
+    
+    Y.Array.each(fruits, function (fruit, index) {
+        Y.log(index + ' = ' + fruit);
+    });
+    Y.Array.some(fruits, function (fruit, index) {
+        Y.log('Hunting for mango... fruit was ' + fruit);
+        return fruit === 'mango';
+    });
+    
+    Y.Object.each(veggies, function (quantity, veggie) {
+         Y.log('There are ' + quantity + ' ' + veggie);
+    });
+    Y.Object.some(veggies, function (quantity, veggie) {
+        Y.log('Do we have any ' + veggie + '?');
+        if (quantity > 0) {
+            Y.log("Well, at least we're not out of " + veggie + '.');
+            return true;
+        }
+    });
+});
+</script>

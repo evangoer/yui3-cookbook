@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title>Displaying a Remote JSON DataSource in a DataTable</title>
+
+<body class="yui3-skin-sam">
+<div id="datatable"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatable', 'datasource-get', 'datasource-jsonschema', function (Y) {
+    var src, table;
+    src = new Y.DataSource.Get({ source: 'https://api.github.com/repos/isaacs/npm/issues' });
+    src.plug(Y.Plugin.DataSourceJSONSchema, {
+        schema: {
+            resultListLocator: 'data',
+            resultFields: [{ key:'number' }, { key:'title' }]
+        }
+    });
+    
+    table = new Y.DataTable({ columns: ['number', 'title'] });
+    table.plug(Y.Plugin.DataTableDataSource, { datasource: src });
+    table.render('#datatable');
+    
+    table.datasource.load({ request: '?per_page=10' });
+});
+</script>
+</body>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<title>Using Individual Modules</title>
+
+<pre id="demo"></pre>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('json-stringify', 'node-base', function (Y, loaderResponse) {
+    var pre = Y.one('#demo');
+    pre.set('text', Y.JSON.stringify(loaderResponse, null, 4));
+});
+</script>

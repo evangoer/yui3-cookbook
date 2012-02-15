@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Creating a Basic DataTable</title>
+
+<body class="yui3-skin-sam">
+<div id="datatable"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatable', function (Y) {
+    var data = [
+        { id: 290, sev: 5, title: 'Sidebar misaligned in IE6' },
+        { id: 819, sev: 1, title: 'Site is down' },
+        { id: 100, sev: 3, title: 'Deployment is taking too long' },
+        { id: 784, sev: 3, title: 'Marketing page has D YSlow grade' }
+    ];
+    
+    var table = new Y.DataTable({
+        columns: ['id', 'sev', 'title'],
+        data: data
+    });
+    table.render('#datatable');
+});
+</script>
+</body>

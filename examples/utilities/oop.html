@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<title>Extending, Augmenting, and Aggregating</title>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('oop', function (Y) {
+    var vine, lemon, lime;
+        
+    function Plant(name) {
+        this.name = name;
+    }
+    Plant.prototype.climbs = false; 
+
+    function Vine(name) {
+        Vine.superclass.constructor.call(this, name);
+    }
+    Y.extend(Vine, Plant, {climbs: true});
+
+    function Leaves() { 
+        Y.log('CONSTRUCTOR: I have leaves.');
+    }
+    Leaves.prototype.leafStatus = function () { return 'green' };
+    
+    Y.augment(Vine, Leaves);
+    
+    vine = new Vine('hybridvine');
+    lemon = { pick: { lemons: function () { return 'Tangy!' } } };
+    lime =  { pick: { limes: function ()  { return 'Mojitos please!' } } };
+    Y.aggregate(vine, lemon);
+    Y.aggregate(vine, lime);
+    
+    Y.log(vine.name + ' can climb: ' + vine.climbs);
+    Y.log(vine.name + " also has leaves. They're " + vine.leafStatus() + '.');
+    Y.log('In fact, by default any Vine can climb: ' + Vine.prototype.climbs);
+    Y.log(vine.name + ' produces lemons: ' + vine.pick.lemons());
+    Y.log(vine.name + ' produces limes: ' + vine.pick.limes());
+    Y.log('Is ' + vine.name + ' a Plant? ' + (vine instanceof Plant));
+    Y.log('Is ' + vine.name + ' a Vine? ' + (vine instanceof Vine));
+    Y.log('But is ' + vine.name + ' a Leaf? ' + (vine instanceof Leaves));
+});
+</script>

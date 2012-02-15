@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<title>Resilient Twitter Status Widget</title>
+
+<div id="tweets"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('twitter', function (Y) {
+    
+    Y.Twitter = Y.Base.create('twitter', Y.Widget, [], {
+        TWITTER_URL: 'http://api.twitter.com/1/statuses/user_timeline.json?' +
+            'screen_name={username}&count={maxTweets}&trim_user=1&callback={callback}',
+        TWEET_TEMPLATE: '<li class="{classes}">{content}</li>',        
+            
+        renderUI: function () {
+            var tweetList = Y.Node.create('<ul/>').addClass(this.getClassName('list'));
+            this._set('tweetList', tweetList);             
+            this.get('contentBox').append(tweetList);
+        },
+        syncUI: function () {
+            this.renderTweets('Loading tweets...');
+            this.refresh();
+        },
+        refresh: function () {
+            var url = Y.Lang.sub(this.TWITTER_URL, this.getAttrs([
+                'maxTweets', 'username'
+            ]));
+
+            Y.jsonp(url, {
+                context: this,
+                on: {
+                    success: function (tweets) {
+                        this.set('tweets', tweets);
+                        this.renderTweets();
+                    },
+                    failure: function () { this.renderTweets('Error fetching tweets.'); },
+                    timeout: function () { this.renderTweets('Request timed out.'); }
+                },
+                timeout: this.get('timeout')
+            });
+        },
+        renderTweets: function (message) {
+            var tweetList = this.get('tweetList'),
+                tweets    = this.get('tweets');
+
+            tweetList.empty();
+            tweetList.setContent((!message && tweets.length) ? 
+                this.buildTweets(tweets) : this.buildMessage(message)
+            );
+        },
+        buildTweets: function (tweets) {
+            return Y.Array.map(tweets, function (tweet) {
+                return Y.Lang.sub(this.TWEET_TEMPLATE, {
+                    content: tweet.text,
+                    classes: this.getClassName('tweet')
+                });
+            }, this).join('');
+        },
+        buildMessage: function (message) {
+            return Y.Lang.sub(this.TWEET_TEMPLATE, {
+                content: message || 'No tweets to display.',
+                classes: this.getClassName('msg')
+            });
+        }
+    }, {
+        ATTRS: {
+            username:  { },
+            maxTweets: { value: 5 },
+            timeout:   { value: 3000 },
+            tweetList: { readOnly: true },
+            tweets:    { value: [] }
+        }
+    });
+}, '1.0.0', {requires: ['base-build', 'widget', 'jsonp', 'array-extras']});
+
+YUI().use('twitter', function (Y) {
+    new Y.Twitter({ username: 'yuilibrary' }).render('#tweets');
+});
+</script>

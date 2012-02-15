@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<title>Creating a Tooltip Widget with ARIA Attributes</title>
+<link rel="stylesheet" 
+    href="http://yui.yahooapis.com/3.5.0/build/cssbutton/cssbutton-min.css">
+<style>
+.yui3-tooltip { 
+    background: #ff5; padding: 3px; border: 1px #a92 solid; 
+    border-radius: 5px; box-shadow: 3px 3px 2px #a92;
+    font: 13px lucida grande, verdana, sans-serif;
+    position: absolute;
+}
+.yui3-tooltip-hidden { visibility: hidden; }
+</style>
+
+<button class="yui3-button"
+    data-tooltip="Send your message. [CTRL+Enter]">Send</button>
+<button class="yui3-button"
+    data-tooltip="Cancel your message without saving. [CTRL+DEL]">Cancel</button>
+<button class="yui3-button"
+    data-tooltip="Save your message as a draft. [CTRL+S]">Save</button>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('tooltip', function (Y) {    
+    Y.Tooltip = Y.Base.create('tooltip', Y.Widget, 
+        [Y.WidgetPosition, Y.WidgetPositionAlign, Y.WidgetStack], {
+            
+        initializer: function () {
+            this.get('boundingBox').setAttribute('role', 'tooltip');
+            
+            this.handles.enter = Y.delegate('mouseenter', this.associate, 
+                'body', '*[data-tooltip]', this);
+            this.handles.leave = Y.delegate('mouseleave', this.disassociate,
+                'body', '*[data-tooltip]', this);
+            this.handles.focus = Y.delegate('focus', this.associate, 
+                'body', '*[data-tooltip]', this);
+            this.handles.blur  = Y.delegate('blur', this.disassociate, 
+                'body', '*[data-tooltip]', this);
+                
+            this.after('describesChange', this.toggleTooltip, this);
+        },
+        associate: function (ev) {
+            this.set('describes', ev.currentTarget);
+        },
+        disassociate: function () {
+            this.set('describes', null);
+        },
+        toggleTooltip: function (ev) {
+            var ALIGN = Y.WidgetPositionAlign,
+                cBox = this.get('contentBox'),
+                bBox = this.get('boundingBox');
+                
+            if (ev.newVal) {
+                this.align(ev.newVal, [ALIGN.TL, ALIGN.BC]);
+                cBox.setContent(ev.newVal.getAttribute('data-tooltip'));
+                ev.newVal.setAttribute('aria-describedby', bBox.get('id'));
+                this.show();
+            } else {
+                ev.prevVal.removeAttribute('aria-describedby');
+                this.hide();
+            }
+        },
+        destructor: function () {
+            Y.each(this.handles, function (handle) {
+                handle.detach();
+            });
+            if (this.get('describes')) {
+                this.get('describes').removeAttribute('aria-describedby');
+            }
+        },
+        handles: {}
+    }, {
+        ATTRS: {
+            visible:   { value: false },
+            describes: { value: null }
+        }
+    });
+}, '1.0', { requires: ['widget-position-align', 'widget-stack', 'event'] });
+
+YUI().use('tooltip', function (Y) {
+    var tooltip = new Y.Tooltip({ width: '200px' });
+    tooltip.render();    
+});
+</script>

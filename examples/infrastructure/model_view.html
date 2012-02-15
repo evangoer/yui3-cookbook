@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<title>Rendering a Model with a View</title>
+    
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('bookmark', function (Y) {
+
+    Y.Bookmark = Y.Base.create('bookmark', Y.Model, [], {
+        addTag: function (tag) {
+            var tags = this.get('tags');
+            if (! Y.Lang.isString(tag)) { return; }
+            tag = Y.Escape.html(Y.Lang.trim(tag));
+            if (Y.Array.indexOf(tags, tag) !== -1) { return; }
+            
+            tags.push(tag);
+            this.set('tags', tags);
+        }
+    }, {
+        ATTRS: {
+            title: {},
+            url: {},
+            tags: { value: [] }
+        }
+    });
+    
+    Y.BookmarkView = Y.Base.create('bookmarkView', Y.View, [], {
+        events: {
+            '.add button': { click: 'addTag' }
+        },
+        template: '<dt><a href="{url}">{title}</a></dt>'
+            + '<dd class="tags">Tags: {tags}</dd><dd class="add">'
+            + '<form><input type="text"><button>Add Tag</button></form></dd>',
+        initializer: function () {
+            var model = this.get('model');
+
+            this.after('bookmark:tagsChange', this.reRenderTags, this);
+            this.after('modelChange', function (ev) {
+                ev.prevVal && ev.prevVal.removeTarget(this);
+                ev.newVal && ev.newVal.addTarget(this);
+            });
+            
+            model && model.addTarget(this);
+        },
+        destructor: function () {
+            var model = this.get('model');
+            model && model.addTarget(this);
+        },
+        render: function () {
+            var model = this.get('model'),
+                bookmarkData = {
+                    url:   model.get('url'),
+                    title: model.get('title'),
+                    tags:  model.get('tags').join(', ')
+                },
+                content = Y.Lang.sub(this.template, bookmarkData),
+                container = this.get('container')
+                
+            container.setContent(content);
+            if (! container.inDoc()) {
+                Y.one('body').append(container);                
+            }
+            return this;
+        },
+        addTag: function (ev) {
+            var input = this.get('container').one('.add input');
+            this.get('model').addTag(input.get('value'));
+            input.set('value', '');
+            ev.preventDefault();
+        },
+        reRenderTags: function () {
+            var tags = this.get('container').one('dd.tags');
+            tags.setContent('Tags: ' + this.get('model').get('tags').join(', '));
+        }
+    }, {
+        ATTRS: {
+            container: { value: Y.Node.create('<dl/>') }
+        }
+    });
+}, '1.0', { requires: ['model', 'view'] });
+
+YUI().use('bookmark', 'node-base', function (Y) {
+    var bookmark = new Y.Bookmark({ 
+        title: 'YUI Library', 
+        url: 'http://yuilibrary.com',
+        tags: ['javascript', 'yui']
+    });
+    var bookmarkView = new Y.BookmarkView({ model: bookmark });
+    bookmarkView.render();
+});
+</script>

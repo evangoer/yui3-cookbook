@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Monkeypatching YUI</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    groups: {
+        patches: {
+            base: '/js/patches/',
+            modules: {
+                'node-patches' : {
+                    path: 'node-patches/node-patches.js',
+                    condition: {
+                        name: 'node-patches',
+                        trigger : 'node-base',
+                        test : function () { return true; }
+                    }
+                }
+            }
+        }
+    }
+}).use('node-base', function (Y) {
+    Y.one('#demo').setContent("Hmmm, setContent() is unusually fast these days.");
+});
+</script>

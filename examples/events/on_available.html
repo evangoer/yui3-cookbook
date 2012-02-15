@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<title>Changing an Element Immediately on Availability</title>
+
+<script src="http://yui.yahooapis.com/combo?3.5.0/build/yui-base/yui-base-min.js&3.5.0/build/oop/oop-min.js&3.5.0/build/event-custom-base/event-custom-base-min.js&3.5.0/build/features/features-min.js&3.5.0/build/dom-core/dom-core-min.js&3.5.0/build/dom-base/dom-base-min.js&3.5.0/build/selector-native/selector-native-min.js&3.5.0/build/selector/selector-min.js&3.5.0/build/node-core/node-core-min.js&3.5.0/build/node-base/node-base-min.js&3.5.0/build/event-base/event-base-min.js"></script>
+<script>
+YUI().use('*', function (Y) {    
+    if (Y.one('#demo') === null) {
+        Y.log("We're sorry, the #demo node is currently not available.");
+        Y.log('Your function() call is very important to us. Please try again later.');
+    }
+    
+    Y.on('available', function () {
+        Y.one('#demo').setContent('Sorry, I changed the div as fast as I could!');
+    }, '#demo');
+});
+</script>
+
+<div id="demo"></div>

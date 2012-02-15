@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Sanitizing User Input</title>
+
+<form id="demo">
+    <label for="text">Type something:</label>
+    <input type="text" id="text" value="<marquee>OH NO!</marquee>">
+    <input type="submit">
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('escape', 'node-base', function (Y) {
+    
+    Y.one('#demo').on('submit', function (ev) {
+        var raw = Y.one('#text').get('value'),
+            sanitized = Y.Escape.html(raw);
+            
+        Y.one('body').append(sanitized);
+        ev.preventDefault();
+    });
+});
+</script>

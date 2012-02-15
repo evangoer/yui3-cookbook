@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<title>Rendering Debug Log Output in the Page</title>
+
+<div class="yui3-skin-sam" id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('console', function (Y) {
+    new Y.Console().render('#demo');
+
+    Y.log('This is an informational debug message.', 'info', 'example_app');
+    Y.log('This is a warning message.', 'warn', 'example_app');
+    Y.log('This is a critical error message.', 'error', 'example_app');
+});
+</script>

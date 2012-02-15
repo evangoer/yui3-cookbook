@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Using Router to Save State Changes in the URL</title>
+
+<h1>Nursery Rhymes</h1>
+<ul id="nav">
+    <li><a href="jack.html">Jack Be Nimble</a></li>
+    <li><a href="bopeep.html">Little Bo Peep</a></li>
+    <li><a href="row.html">Row, Row, Row Your Boat</a></li>
+</ul>
+<div id="main"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('router', 'node-event-delegate', 'node-load', function (Y) {
+    var router = new Y.Router(); 
+    
+    Y.one('body').delegate('click', function (ev) {
+        var url = ev.target.get('href'),
+            path = router.removeRoot(url);
+        
+        ev.preventDefault();
+        
+        Y.one('#main').load(url, '#main');
+        router.save(path);
+    }, '#nav a');
+});
+</script>

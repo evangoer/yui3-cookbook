@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<title>Adding ARIA-Enabled Form Error Messages</title>
+<style>
+input[aria-invalid="true"] { border: 1px solid red; }
+form p { padding: 5px; max-width: 500px; font-weight: bold; }
+p.success { background: #cec; color: green; border: 1px solid green; }
+p.error   { background: #ecc; color: red;   border: 1px solid red; }
+</style>
+
+<form id="quiz">
+<label for="capital">What is the capital of California?</label>
+<input type="text" name="capital" id="capital" required aria-required="true">
+<input type="submit" value="Submit Answer">
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    var quiz  = Y.one('#quiz'),
+        input = Y.one('#capital');
+    
+    quiz.on('submit', function (ev) {
+        var answer = ev.target.get('capital').get('value');
+        ev.preventDefault();
+        if (isValid(answer)) {
+            showSuccess();
+        }
+        else {
+            showErrorMessage();
+        }
+    });
+    
+    function isValid(answer) {
+        return Y.Lang.trim(answer).toLowerCase() === 'sacramento';
+    }
+    
+    function showErrorMessage() {
+        var error = 'Wrong! Maybe you should just look it up on Wikipedia.';
+        
+        if (! input.hasAttribute('aria-invalid')) {
+            input.setAttribute('aria-invalid', 'true');
+            input.setAttribute('aria-describedby', 'err-capital');
+            quiz.append('<p id="err-capital" class="error">' + error + '</p>');
+        }
+    }
+
+    function showSuccess() {
+        if (input.hasAttribute('aria-invalid')) {
+            input.removeAttribute('aria-invalid');
+            input.removeAttribute('aria-describedby');
+            Y.one('#err-capital').remove();
+        }
+        quiz.append('<p class="success">Good job!</p>');
+    }
+});
+</script>
+</body>

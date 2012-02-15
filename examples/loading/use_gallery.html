@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Using the "To Relative Time" Gallery Module with YUI Node</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    gallery: 'gallery-2010.08.25-19-45'
+}).use('gallery-torelativetime', 'node', function (Y) {
+    var entryTime = new Date(2011,10,1);
+    Y.one('#demo').setContent(Y.toRelativeTime(entryTime));
+});
+</script>

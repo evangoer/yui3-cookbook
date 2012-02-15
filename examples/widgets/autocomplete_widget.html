@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<title>Using AutoComplete as a Widget</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-list', function (Y) {
+    var autocomplete = new Y.AutoComplete({
+        inputNode: '#demo',
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    }).render();
+    
+    autocomplete.on('select', function (ev) {
+        Y.one('body').append('<p>Yum, ' + ev.result.text + '!</p>');
+    });
+});
+</script>

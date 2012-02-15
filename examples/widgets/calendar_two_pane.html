@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Two Pane Calendar with More Options Set</title>
+
+<body class="yui3-skin-sam">
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({ lang: 'ru' }).use('calendar', function (Y) {
+    Y.CalendarBase.CONTENT_TEMPLATE = Y.CalendarBase.TWO_PANE_TEMPLATE;
+    
+    var calendar = new Y.Calendar({ 
+        width: 400,
+        showPrevMonth: true,
+        showNextMonth: true,
+        selectionMode: 'multiple-sticky',
+        date: new Date(2012, 4, 7),
+        maximumDate: new Date(2012, 11, 21),
+    }).render('#demo');
+});
+</script>
+</body>

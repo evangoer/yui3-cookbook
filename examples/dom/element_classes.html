@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Manipulating CSS Classes</title>
+<style>
+.garish { color: #f00; }
+.moregarish { background: #0f0; }
+.ohpleasegodno { text-decoration: blink; overflow-x: -webkit-marquee; }
+</style>
+
+<div id="demo" class="garish ohpleasegodno">Things could always be worse...</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', function (Y) {
+    var div = Y.one('#demo');
+    
+    div.addClass('moregarish');
+    if (div.hasClass('moregarish')) {
+        Y.log('Lime green FTW!');
+    }
+    div.removeClass('ohpleasegodno');
+});
+</script>

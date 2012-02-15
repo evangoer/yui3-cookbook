@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<title>Defining and Executing Routes</title>
+
+<div id="nav"><a href="/admin">Admin</a> | <a href="/posts">Blog Posts</a></div>
+<div id="subnav"></div>
+<div id="main"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().add('blog', function (Y) {
+    Y.Blog = Y.Base.create('blog', Y.Router, [], {
+        initializer: function () {
+            Y.one('body').delegate('click', function (ev) {
+                var path = this.removeRoot(ev.target.get('href'));
+                ev.preventDefault();
+                this.save(path);
+            }, 'a', this);
+        },
+        showAdminScreen: function (req, res, next) {
+            Y.one('#subnav').setContent('<p>(admin buttons)</p>');
+            Y.one('#main').setContent('<p>(general admin functions)</p>');
+        },
+        listPosts: function (req, res, next) {
+            Y.one('#subnav').setContent('<ul>' 
+                + '<li><a href="/posts/3">Blogging is Hard</a></li>'
+                + '<li><a href="/posts/2">What I Had For Lunch Today</a></li>'
+                + '<li><a href="/posts/1">Hello World</a></li>'
+                + '</ul>');
+            Y.one('#main').setContent('');
+            next();
+        },
+        editPost: function (req, res, next) {
+            Y.one('#main').setContent('Editing post ' + req.params.id);
+        }
+    }, {
+        ATTRS: {
+            routes: {
+                value: [
+                    { path: '/admin', callback: 'showAdminScreen' },
+                    { path: /^\/posts/, callback: 'listPosts' },
+                    { path: '/posts/:id', callback: 'editPost' }
+                ]
+            }
+        }
+    });
+}, '1.0', { requires: ['router', 'node-event-delegate'] });
+
+YUI().use('blog', function (Y) {
+    var blog = new Y.Blog();
+});
+</script>

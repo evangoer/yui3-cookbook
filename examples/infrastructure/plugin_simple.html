@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<title>Creating a Simple Plugin</title>
+<style>
+#demo { height: 300px; width: 300px;}
+</style>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI.add('stats-plugin', function (Y) {
+    Y.Plugin.Stats = function (config) {
+        this.chart = config.host;
+        this.values = this.chart.getAxisByKey('values').get('data');
+    };
+    
+    Y.Plugin.Stats.NS = 'stats';
+    
+    Y.Plugin.Stats.prototype = {
+        getMean: function () {
+            var i, sum = 0;
+            for (i = 0; i < this.values.length; i += 1) {
+                sum += this.values[i];
+            }
+            return sum / this.values.length;
+        }
+    };
+    
+}, '1.0', { requires: ['charts'] });
+
+YUI().use('stats-plugin', function (Y) {
+    var data = [
+        ['Alice', 'Bob', 'Carol', 'Donald', 'Edgar', 'Frieda'],
+        [27, 9, 85, 40, 55, 48]
+    ];
+
+    var chart = new Y.Chart({
+        dataProvider: data,
+        type: 'column',
+        render: '#demo'
+    });
+    
+    chart.plug(Y.Plugin.Stats);
+    Y.one('body').append('<p>Mean = ' + chart.stats.getMean() + ' commits</p>');
+});
+</script>

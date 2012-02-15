@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<title>Creating a Lightbox from an Overlay</title>
+<style>
+.yui3-widget-mask   { background-color: #000; opacity: 0.8; }
+.yui3-overlay       { background: #fff; padding: 10px; }
+.yui3-overlay img   { max-width: 450px; max-height: 450px; }
+.yui3-overlay:focus { outline: none; }
+</style>
+
+<a href="http://apod.nasa.gov/apod/image/9905/ngc4603_hst.jpg" rel="lightbox">NGC 4603</a>
+<a href="http://apod.nasa.gov/apod/image/9906/trifidjet_hst.jpg" rel="lightbox">Trifid Jet</a>
+<a href="http://apod.nasa.gov/apod/image/9907/jupiter_vg1.jpg" rel="lightbox">Jupiter</a>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', 'base', 'widget-modality', 'widget-autohide', function (Y) {
+    Y.Base.mix(Y.Overlay, [Y.WidgetModality, Y.WidgetAutohide]);
+        
+    var lightbox = new Y.Overlay({ 
+        modal: true,
+        visible: false,
+        hideOn: [
+            { eventName: 'key', keyCode: 'esc', node: Y.one('document') },
+            { eventName: 'clickoutside' }
+        ]
+    });
+    lightbox.display = function () {
+        this.centered();
+        this.show();
+    };
+    lightbox.setNewImage = function (destroy) {
+        var img = Y.Node.create('<img>');
+        if (destroy) {
+            this.get('bodyContent').destroy(true);
+        }
+        img.on('load', this.display, this);
+        this.set('bodyContent', img);
+    };
+    
+    lightbox.setNewImage();
+    lightbox.anchors = Y.all('a[rel=lightbox]');
+    lightbox.addAttr('index', { value: -1 });
+    
+    lightbox.after('visibleChange', function (ev) {
+        if (ev.newVal === false) {
+            this.setNewImage(true);
+            this.set('index', -1);
+        }
+    });
+
+    lightbox.after('indexChange', function (ev) {
+        var anchors, ix = ev.newVal;
+        if (ix !== -1) {
+            anchor = this.anchors.item(ix);  
+            this.get('bodyContent').set('src', anchor.get('href'));            
+        };
+    });
+        
+    Y.delegate('click', function (ev) {
+        var clickedIndex = lightbox.anchors.indexOf(ev.currentTarget);
+        lightbox.set('index', clickedIndex);
+        ev.preventDefault();
+    }, 'body', 'a[rel=lightbox]');
+    
+    Y.on('keydown', function(ev) {
+        var max = lightbox.anchors.size() - 1,
+            index = lightbox.get('index');
+            
+        if (! lightbox.get('visible')) { return };
+        
+        switch(ev.keyCode) {
+            case 37:  // left arrow
+                index = (index === 0) ? max : index - 1;
+                break;
+            case 39:  // right arrow
+                index = (index === max) ? 0 : index + 1;
+                break;
+        }
+        lightbox.set('index', index);
+    });
+
+    lightbox.render();
+});
+</script>

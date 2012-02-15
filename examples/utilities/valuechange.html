@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>Reliably Detecting Input Field Changes</title>
+
+<form><input type="text" id="demo"></form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('event-valuechange', function (Y) {
+    Y.one('#demo').on('valueChange', function (ev) {
+        Y.log('previously: ' + ev.prevVal + '; now: ' + ev.newVal); 
+    });
+});
+</script>

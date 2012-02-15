@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>Writing a Custom AutoComplete Filter</title>
+
+<form class="yui3-skin-sam">
+    <label>Fruit: <input type="text" id="demo"></label>
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('autocomplete-plugin', function (Y) {
+    function endsWith(query, results) {
+        query = query.toLowerCase();
+
+        return Y.Array.filter(results, function(result) {
+            var resultText = result.text.toLowerCase(),
+                suffixIndex = resultText.length - query.length;
+
+            return resultText.lastIndexOf(query) === suffixIndex;
+        });
+    }
+    
+    var input = Y.one("#demo").plug(Y.Plugin.AutoComplete, {
+        resultFilters: endsWith,
+        source: ['apple', 'banana', 'cantaloupe', 'durian fruit']
+    });
+});
+</script>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<title>Formatting Dates</title>
+
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatype-date', 'node-base', function (Y) {
+    var dateStr = Y.DataType.Date.format(new Date(), { format: '%A, %B %e, %Y' });
+    Y.one('#demo').append('Today is ' + dateStr + '.');
+});
+</script>

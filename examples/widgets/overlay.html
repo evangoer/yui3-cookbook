@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title>Creating an Overlay from JavaScript</title>
+<style>
+.yui3-overlay   { width: 200px; border: 1px #259 solid; border-radius: 5px; }
+.yui3-widget-hd { background: #00cccc; padding: 2px; }
+.yui3-widget-bd { background: #47a3ff; padding: 2px; }
+.yui3-widget-ft { background: #0a85ff; padding: 2px; }
+</style>
+
+<button id="hide">Hide</button> <button id="show">Show</button>
+<p>Dear Overlay: I'm feeling a bit smothered. Respectfully, P.</p>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('overlay', function (Y) {
+    var overlay = new Y.Overlay({ 
+        headerContent: 'Head',
+        bodyContent: 'Body',
+        footerContent: '<b>Foot</b>',
+        xy: [20, 40]
+    }).render();
+    
+    Y.one('#hide').on('click', function () { overlay.hide(); });
+    Y.one('#show').on('click', function () { overlay.show(); });
+});
+</script>

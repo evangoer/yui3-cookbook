@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<title>Creating a Modal Dialog or Form</title>
+<style>
+#houndReleaseForm { display: none; }
+.yui3-widget-bd #houndReleaseForm { display: block; }
+</style>
+
+<body class="yui3-skin-sam">
+<form id="houndReleaseForm" action="#">
+    <label for="hounds">Hounds to release:</label>
+    <input type="text" name="hounds" id="hounds" value="all of them">
+</form>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('panel', 'escape', function (Y) {
+    var okButton = {
+        value: 'ok',
+        section: Y.WidgetStdMod.FOOTER,
+        action: function (ev) {
+            var numHounds = Y.Escape.html(Y.one('#hounds').get('value'));
+            Y.one('body').append('<p>Hounds released: ' + numHounds + '</p>');
+            ev.preventDefault();
+            this.hide();
+        }
+    };
+    
+    var cancelButton = {
+        value: 'cancel',
+        section: Y.WidgetStdMod.FOOTER,
+        action: function (ev) {
+            ev.preventDefault();
+            this.hide();
+        }
+    };
+    
+    var panel = new Y.Panel({ 
+        width: 300, 
+        centered: true,
+        modal: true,
+        headerContent: 'Release the hounds?',
+        bodyContent: Y.one('#houndReleaseForm'),
+        buttons: [ okButton, cancelButton ]
+    }).render();
+});
+</script>
+</body>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Preventing Default Behavior</title>
+
+<a href="http://www.endoftheinternet.com/">The End of the Internet</a>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node-base', function (Y) {
+    Y.one('a').on('click', function (ev) {
+        ev.preventDefault();
+        Y.one('body').append('<p>Now why would you ever go there?</p>');
+    });
+});
+</script>

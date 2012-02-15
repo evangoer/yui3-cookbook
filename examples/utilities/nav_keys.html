@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Dismissing an Overlay with ESC</title>
+
+<style>
+.yui3-overlay {
+    position: absolute; width: 200px; padding: 5px;
+    color: #ddd; background: #a00; box-shadow: 3px 3px 2px #600;
+}
+</style>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('gallery-event-nav-keys', 'overlay', function (Y) {
+    var overlay = new Y.Overlay({
+        bodyContent: 'Press ESC to dismiss me',
+        xy: [30, 30]
+    });
+    
+    Y.on('esc', function (ev) {
+        overlay.hide();
+    });
+    
+    overlay.render();
+});
+</script>

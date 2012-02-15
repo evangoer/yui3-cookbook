@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<title>Using a Remote JSON DataSource</title>
+
+<h1>JSLint: Recently closed issues</h1>
+<ol id="issues"></ol>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datasource-get', 'node-base', function (Y) {
+    var src = 'https://api.github.com/repos/douglascrockford/JSLint/issues?state=closed',
+        dataSource = new Y.DataSource.Get({ source: src });
+    
+    function displayIssues(rsp) {
+        var issues = rsp.response.results[0].data,
+            template = '<li><a href="{html_url}">{id}</a> {title}</li>',
+            ol = Y.one('#issues');
+        Y.Array.each(issues, function (issue) {
+            ol.append(Y.Lang.sub(template, issue));
+        });
+    }
+
+    dataSource.sendRequest({
+        on: {
+            success: displayIssues
+        }
+    });
+});
+</script>

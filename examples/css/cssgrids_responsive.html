@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<title>Using Grids for Responsive Design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<link rel="stylesheet" 
+    href="http://yui.yahooapis.com/3.5.0/build/cssgrids/cssgrids-min.css">
+<style>
+/* Default layout for browsers that do not support media queries */
+body    { margin: auto; width: 960px; }
+.nav    { width: 240px; }
+.main   { width: 720px; }
+
+/* Phone: completely vertical layout */
+@media screen and (max-width: 480px) {
+    body    { margin: inherit; width: inherit; }
+    .yui3-u { display: block; }
+    .nav    { width: 100%; }
+    .main   { width: 100%; }
+}
+
+/* Tablet to small desktop: side nav, fluid layout */
+@media screen and (min-width: 481px) and (max-width: 960px) {
+    body    { margin: inherit; width: inherit; }
+    .layout { padding-left: 240px; }
+    .nav    { margin-left: -240px; width: 240px; }
+    .main   { width: 99%; }
+}
+
+/* Desktop: max out with a centered, 960px fixed width layout */
+@media screen and (min-width: 961px) {
+    body    { margin: auto; width: 960px; }
+    .nav    { width: 240px; }
+    .main   { width: 720px; }
+}
+</style>
+<div class="yui3-g layout">
+    <div class="yui3-u nav">
+        <ul>
+            <li><a href="#">Chapter 1</a></li>
+            <li><a href="#">Chapter 2</a></li>
+            <li><a href="#">Chapter 3</a></li>
+        </ul>
+    </div>
+    <div class="yui3-u main">
+        <p>The author of these Travels, Mr. Lemuel Gulliver, is my ancient and
+        intimate friend; there is likewise some relation between us on the
+        mother's side.  About three years ago, Mr. Gulliver growing weary of the
+        concourse of curious people coming to him at his house in Redriff, made a
+        small purchase of land, with a convenient house, near Newark, in
+        Nottinghamshire, his native country; where he now lives retired, yet in
+        good esteem among his neighbours.</p>
+
+        <p>Although Mr. Gulliver was born in Nottinghamshire...</p>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<title>Creating a Widget with a CSS Module</title>
+
+<p>Click the electron to increase its energy by 10%.</p>
+<div id="demo"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    groups: {
+        localModules: {
+            base: './ex1/',
+            modules: {
+                'electron': {
+                    path: 'electron/js/electron.js',
+                    requires: ['base-build', 'widget', 'electron-css']
+                },
+                'electron-css': {
+                    path: 'electron/css/electron.css',
+                    type: 'css'
+                }
+            }
+        }
+    }
+}).use('electron', function (Y) {
+    var e = new Y.Electron();
+    e.render('#demo');
+});
+</script>

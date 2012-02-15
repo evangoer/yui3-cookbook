@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>Changing YUI's Default Skin</title>
+
+<div id="demo" class="yui3-skin-night"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    skin: { defaultSkin: 'night' }
+}).use('calendar', function (Y) {
+    new Y.Calendar({ width: 300 }).render('#demo');
+});
+</script>

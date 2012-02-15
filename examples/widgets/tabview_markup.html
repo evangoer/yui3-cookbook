@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<title>Creating a TabView from Markup</title>
+
+<body class="yui3-skin-sam">
+<div id="tabview">
+    <ul>
+        <li><a href="#a">A</a></li>
+        <li><a href="#b">B</a></li>
+        <li><a href="#c">C</a></li>
+    </ul>
+    <div>
+        <div id="a">
+            <p>This is Tab A.</p>
+            <p>There have been <span id="num">0</span> tab switches so far.</p>
+        </div>
+        <div id="b"><p>This is Tab B.</p></div>
+        <div id="c"><p>This is Tab C. Surprised?</p></div>
+    </div>
+</div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('tabview', function (Y) {
+    var tabview = new Y.TabView({ srcNode: '#tabview' }).render(),
+        numSwitches = 0;
+        
+    tabview.after('selectionChange', function (ev) {
+        numSwitches += 1;
+        Y.one('#num').setContent(numSwitches);
+    });
+});
+</script>
+</body>

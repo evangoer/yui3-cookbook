@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>Parsing Arbitrary XML</title>
+
+<div id="book"></div>
+
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('datatype-xml', 'node-base', function (Y) {
+    var xmlString = '<book><title>The YUI 3 Cookbook</title>'
+        + '<chapter id="loading"><title>Loading Modules</title>'
+        + '<para>Consider the humble script element...</para></chapter></book>';
+        
+    var xml = Y.DataType.XML.parse(xmlString),
+        ch1 = xml.firstChild.childNodes[1];
+
+    Y.one('#book').append('<h1>Chapter 1: ' + ch1.childNodes[0].textContent + '</h1>');
+    Y.one('#book').append('<p>' + ch1.childNodes[1].textContent + '</p>');
+});
+</script>
