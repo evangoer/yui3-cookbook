@@ -52,7 +52,7 @@ YUI.add('tooltip', function (Y) {
                 
             if (ev.newVal) {
                 this.align(ev.newVal, [ALIGN.TL, ALIGN.BC]);
-                cBox.setContent(ev.newVal.getAttribute('data-tooltip'));
+                cBox.setHTML(ev.newVal.getAttribute('data-tooltip'));
                 ev.newVal.setAttribute('aria-describedby', bBox.get('id'));
                 this.show();
             } else {

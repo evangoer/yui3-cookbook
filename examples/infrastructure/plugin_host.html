@@ -20,7 +20,7 @@ YUI.add('title-plugin', function (Y) {
         addTitle: function () {
             var boundingBox = this.get('host').get('boundingBox');
             this.titleNode = Y.Node.create(this.get('titleElement'));
-            this.titleNode.setContent(this.get('title'));
+            this.titleNode.setHTML(this.get('title'));
             boundingBox.prepend(this.titleNode);
         },
         titleNode: null,

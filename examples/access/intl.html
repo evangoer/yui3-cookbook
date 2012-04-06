@@ -15,8 +15,8 @@ YUI.add('my-form', function (Y) {
     Y.MyForm = {};
     Y.MyForm.updateLabels = function() {
         var strings = Y.Intl.get('my-form');
-        Y.one('label[for=name]').setContent(strings.name);
-        Y.one('label[for=address]').setContent(strings.address);
+        Y.one('label[for=name]').setHTML(strings.name);
+        Y.one('label[for=address]').setHTML(strings.address);
     }
 
     Y.Intl.add('my-form', 'en', {

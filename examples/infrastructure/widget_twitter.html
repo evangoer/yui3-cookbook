@@ -44,7 +44,7 @@ YUI.add('twitter', function (Y) {
                 tweets    = this.get('tweets');
 
             tweetList.empty();
-            tweetList.setContent((!message && tweets.length) ? 
+            tweetList.setHTML((!message && tweets.length) ? 
                 this.buildTweets(tweets) : this.buildMessage(message)
             );
         },

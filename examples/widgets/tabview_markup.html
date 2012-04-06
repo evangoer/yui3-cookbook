@@ -26,7 +26,7 @@ YUI().use('tabview', function (Y) {
         
     tabview.after('selectionChange', function (ev) {
         numSwitches += 1;
-        Y.one('#num').setContent(numSwitches);
+        Y.one('#num').setHTML(numSwitches);
     });
 });
 </script>

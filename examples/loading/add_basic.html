@@ -14,6 +14,6 @@ YUI.add('hello', function (Y) {
 });
 
 YUI().use('node-base', 'hello', function (Y) {
-    Y.one('#demo').setContent(Y.Hello.sayHello());
+    Y.one('#demo').setHTML(Y.Hello.sayHello());
 });
 </script>

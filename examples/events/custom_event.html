@@ -12,7 +12,7 @@ YUI().use('node', 'event-custom', function (Y) {
     
     Y.on('moon:landing', function (ev) {
         var msg = Y.Lang.sub("{first} {last}: That's one small step for [a] man...", ev);
-        Y.one('#demo').setContent(msg);
+        Y.one('#demo').setHTML(msg);
     });
     
     if (theEagleHasLanded()) {

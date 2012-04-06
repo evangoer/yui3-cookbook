@@ -26,7 +26,7 @@ YUI().use('jsonp', 'node-base', function (Y) {
                 + '<p>{bio}</p>' 
                 + '<p>Videos Uploaded: {total_videos_uploaded}</p></div>'
 
-            Y.one('#demo').setContent(Y.Lang.sub(template, response));
+            Y.one('#demo').setHTML(Y.Lang.sub(template, response));
         });
         ev.preventDefault();
     });

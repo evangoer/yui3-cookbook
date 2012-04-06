@@ -16,7 +16,7 @@ YUI().add('errorpane', function (Y) {
         },
         render: function () {
             var container = this.get('container');
-            container.setContent('<button>Ignore</button> ' + this.get('msg'));
+            container.setHTML('<button>Ignore</button> ' + this.get('msg'));
             Y.one('body').append(container);
             return this;
         }

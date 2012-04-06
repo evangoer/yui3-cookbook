@@ -21,7 +21,7 @@ YUI().use('node-load', function (Y) {
     Y.all('#nav a').on('click', function (ev) {
         ev.preventDefault();
         main.load(ev.target.get('href'), '#content');
-        Y.one('h1').setContent(ev.target.getContent());
+        Y.one('h1').setHTML(ev.target.getHTML());
     });
 });
 </script>

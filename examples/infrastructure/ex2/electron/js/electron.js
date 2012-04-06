@@ -22,8 +22,8 @@ YUI.add('electron', function (Y) {
         syncUI: function () {
             var energyStr = 'Energy: ' + this.get('energy').toPrecision(5) + ' MeV';
             var speedStr  = 'Speed: ' + this.speed().toPrecision(5) + ' c';
-            this.get('contentBox').one('.en').setContent(energyStr);
-            this.get('contentBox').one('.sp').setContent(speedStr);
+            this.get('contentBox').one('.en').setHTML(energyStr);
+            this.get('contentBox').one('.sp').setHTML(speedStr);
         }
     }, {
         ATTRS: {

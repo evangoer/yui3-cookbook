@@ -27,8 +27,8 @@ YUI.add('electron', function (Y) {
             var s = this.get('strings');
             var energyStr = s.energy + ': ' + this.get('energy').toPrecision(5) + ' MeV';
             var speedStr  = s.speed + ': ' + this.getSpeed().toPrecision(5) + ' c';
-            this.get('contentBox').one('.en').setContent(energyStr);
-            this.get('contentBox').one('.sp').setContent(speedStr);
+            this.get('contentBox').one('.en').setHTML(energyStr);
+            this.get('contentBox').one('.sp').setHTML(speedStr);
         }
     }, {
         ATTRS: {

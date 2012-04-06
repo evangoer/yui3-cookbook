@@ -28,7 +28,7 @@ YUI().use('bookmark', 'node-base', function (Y) {
         url: 'http://yuilibrary.com' 
     });
     bookmark.after('titleChange', function () {
-        Y.one('#demo').setContent(bookmark.getAsHTML('title'));
+        Y.one('#demo').setHTML(bookmark.getAsHTML('title'));
     });
     bookmark.set('title', 'YUI Library -- now with <strong>MVC</strong>!');
 

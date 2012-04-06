@@ -28,7 +28,7 @@ YUI({
     
     var volume = Y.one('#value');
     audioSlider.after('valueChange', function (ev) {
-        volume.setContent(ev.newVal);
+        volume.setHTML(ev.newVal);
     });
 });
 </script>

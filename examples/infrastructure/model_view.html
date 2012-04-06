@@ -55,7 +55,7 @@ YUI.add('bookmark', function (Y) {
                 content = Y.Lang.sub(this.template, bookmarkData),
                 container = this.get('container')
                 
-            container.setContent(content);
+            container.setHTML(content);
             if (! container.inDoc()) {
                 Y.one('body').append(container);                
             }
@@ -69,7 +69,7 @@ YUI.add('bookmark', function (Y) {
         },
         reRenderTags: function () {
             var tags = this.get('container').one('dd.tags');
-            tags.setContent('Tags: ' + this.get('model').get('tags').join(', '));
+            tags.setHTML('Tags: ' + this.get('model').get('tags').join(', '));
         }
     }, {
         ATTRS: {

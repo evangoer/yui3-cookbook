@@ -12,7 +12,7 @@ YUI().use('slider', function (Y) {
         points = Y.one('#points');
         
     slider.after('valueChange', function (ev) {
-        points.setContent(ev.newVal);
+        points.setHTML(ev.newVal);
     });
 });
 </script>

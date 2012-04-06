@@ -22,7 +22,7 @@ YUI().use('node-load', 'transition', function (Y) {
         ev.preventDefault();
         main.transition('fadeOut', function () {
             main.load(ev.target.get('href'), '#content', function () {
-                Y.one('h1').setContent(ev.target.getContent());
+                Y.one('h1').setHTML(ev.target.getHTML());
                 main.transition('fadeIn');
             });
         });

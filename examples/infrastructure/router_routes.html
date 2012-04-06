@@ -17,20 +17,20 @@ YUI().add('blog', function (Y) {
             }, 'a', this);
         },
         showAdminScreen: function (req, res, next) {
-            Y.one('#subnav').setContent('<p>(admin buttons)</p>');
-            Y.one('#main').setContent('<p>(general admin functions)</p>');
+            Y.one('#subnav').setHTML('<p>(admin buttons)</p>');
+            Y.one('#main').setHTML('<p>(general admin functions)</p>');
         },
         listPosts: function (req, res, next) {
-            Y.one('#subnav').setContent('<ul>' 
+            Y.one('#subnav').setHTML('<ul>' 
                 + '<li><a href="/posts/3">Blogging is Hard</a></li>'
                 + '<li><a href="/posts/2">What I Had For Lunch Today</a></li>'
                 + '<li><a href="/posts/1">Hello World</a></li>'
                 + '</ul>');
-            Y.one('#main').setContent('');
+            Y.one('#main').setHTML('');
             next();
         },
         editPost: function (req, res, next) {
-            Y.one('#main').setContent('Editing post ' + req.params.id);
+            Y.one('#main').setHTML('Editing post ' + req.params.id);
         }
     }, {
         ATTRS: {

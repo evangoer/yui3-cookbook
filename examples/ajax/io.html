@@ -14,8 +14,8 @@ p    { font: 13px tahoma, sans-serif; text-align: center; color: #444; }
 <script>
 YUI().use('io-base', 'node-base', 'json-parse', function (Y) {
     function showAnswer(answer) {
-        Y.one('#guilty').setContent(answer.guilty).addClass(answer.guilty);
-        Y.one('#comment').setContent(answer.comment);
+        Y.one('#guilty').setHTML(answer.guilty).addClass(answer.guilty);
+        Y.one('#comment').setHTML(answer.comment);
     }
     
     Y.io('io.php', {

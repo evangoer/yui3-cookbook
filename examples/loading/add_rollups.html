@@ -15,6 +15,6 @@ YUI({
     var dataStr = '{ "rollups": "are neat" }',
         data    = Y.JSON.parse(dataStr);
 
-    Y.one('#demo').setContent(data.rollups);
+    Y.one('#demo').setHTML(data.rollups);
 });
 </script>

@@ -20,7 +20,7 @@ YUI.add('bookmark', function (Y) {
             var content   = Y.Lang.sub(this.template, this.get('model').toJSON()),
                 container = this.get('container');
                  
-            container.setContent(content);
+            container.setHTML(content);
             if (container.get('parent') !== parentContainer) {
                 parentContainer.append(container);   
             }

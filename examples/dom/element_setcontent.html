@@ -10,8 +10,8 @@ YUI().use('node', function (Y) {
         hi = '<em>HELLO</em> from the ' + demo.get('tagName') 
             + ' with id=' + demo.get('id');
 
-    if (demo.getContent() === '') {
-        demo.setContent(hi);
+    if (demo.getHTML() === '') {
+        demo.setHTML(hi);
     }
 });
 </script>

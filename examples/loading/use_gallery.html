@@ -9,6 +9,6 @@ YUI({
     gallery: 'gallery-2010.08.25-19-45'
 }).use('gallery-torelativetime', 'node', function (Y) {
     var entryTime = new Date(2011,10,1);
-    Y.one('#demo').setContent(Y.toRelativeTime(entryTime));
+    Y.one('#demo').setHTML(Y.toRelativeTime(entryTime));
 });
 </script>

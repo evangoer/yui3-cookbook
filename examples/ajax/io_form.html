@@ -27,7 +27,7 @@ YUI().use('io-form', 'json-parse', function (Y) {
             on: {
                 complete: function(id, response) {
                     var answer = Y.JSON.parse(response.responseText);
-                    Y.one('#answer').setContent(answer.guilty + '. ' + answer.comment)
+                    Y.one('#answer').setHTML(answer.guilty + '. ' + answer.comment)
                         .set('className', answer.guilty);
                 }
             }

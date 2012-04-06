@@ -11,6 +11,6 @@ YUI().use('dom-style', 'node', function (Y) {
         colorRGB = Y.Color.toRGB(colorHex);
     
     Y.one('#demo').setStyle('color', colorRGB)
-        .setContent(color + ' === ' + colorHex + ' === ' + colorRGB);
+        .setHTML(color + ' === ' + colorHex + ' === ' + colorRGB);
 });
 </script>

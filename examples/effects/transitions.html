@@ -31,10 +31,10 @@ YUI().use('node', 'transition', function (Y) {
         },
         on: {
             start: function () { 
-                demo.setContent("It's just a jump to the left...");
+                demo.setHTML("It's just a jump to the left...");
             },
             end: function () { 
-                demo.setContent('And then a step to the riiight!');
+                demo.setHTML('And then a step to the riiight!');
                 demo.transition({
                     duration: 2.0, 
                     left: '0px', 
