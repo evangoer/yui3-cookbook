@@ -1,6 +1,7 @@
 var YUI_config = {
     groups: {
         'local-modules': {
+            // NOTE: On a local filesystem, change to './js/local-modules/'
             base: '/js/local-modules/',
             modules: {
                 'reptiles-core': {

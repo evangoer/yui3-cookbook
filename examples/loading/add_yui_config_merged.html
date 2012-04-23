@@ -4,11 +4,13 @@
 <div id="demo"></div>
 
 <script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<!-- NOTE: On a local filesystem, change to './js/yui_config_incomplete.js' -->
 <script src="/js/yui_config_incomplete.js"></script>
 <script>
 YUI({
     groups: {
         'local-modules': {
+            // NOTE: On a local filesystem, change to './js/local-modules/'
             base: '/js/local-modules/',
             modules: {
                 'reptiles-stomp': {
