@@ -2,7 +2,7 @@ YUI 3 Cookbook Examples
 =======================
 
 This repo contains over 170 examples and related resource files for 
-the `YUI 3 Cookbook <http://shop.oreilly.com/product/0636920013303.do>`, 
+the `YUI 3 Cookbook <http://shop.oreilly.com/product/0636920013303.do>`_, 
 to be published this year from O'Reilly Press. 
 All code in the YUI 3 Cookbook is built and tested 
 to run against YUI 3.5.0. 
